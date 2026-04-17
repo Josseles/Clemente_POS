@@ -1,15 +1,30 @@
-import 'package:clemente_pos/components/column_magenta.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:clemente_pos/routes/app_routes.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  SystemChrome.setPreferredOrientations([
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
   ]);
 
-  ColumnaMagenta();
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Clemente POS',
+
+      initialRoute: AppRoutes.login,
+      routes: AppRoutes.routes,
+    );
+  }
 }
 
