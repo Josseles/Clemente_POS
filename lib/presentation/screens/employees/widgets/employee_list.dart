@@ -10,7 +10,7 @@ class EmployeeList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: employees.length,
-      separatorBuilder: (_, __) => const Divider(),
+      separatorBuilder: (_, _) => const Divider(),
       itemBuilder: (context, index) {
         final emp = employees[index];
 

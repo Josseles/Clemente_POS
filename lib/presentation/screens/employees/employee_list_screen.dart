@@ -19,13 +19,13 @@ class EmployeeListScreen extends StatelessWidget {
     final List<Employee> employees = [
       Employee(
         id: "1",
-        name: "Juan Pérez",
+        name: "Juan Perez",
         role: EmployeeRole.employee,
         phone: "6671234567",
       ),
       Employee(
         id: "2",
-        name: "Ana López",
+        name: "Ana Lopez",
         role: EmployeeRole.manager,
         phone: "6679876543",
       ),
@@ -40,10 +40,7 @@ class EmployeeListScreen extends StatelessWidget {
           children: [
             const Text(
               "Registro de usuarios",
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 20),

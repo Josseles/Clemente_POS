@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'widgets/employee_sidebar_content.dart';
 import '../../../core/widgets/app_layout.dart';
 import 'widgets/menu_button.dart';
+import '../../../data/models/employee.dart';
 
 class EmployeeMenuScreen extends StatelessWidget {
-  const EmployeeMenuScreen({super.key});
+  final Employee employee;
+
+  const EmployeeMenuScreen({super.key, required this.employee});
 
   @override
   Widget build(BuildContext context) {
     return AppLayout(
       sidebarContent: const EmployeeSidebarContent(),
-
       child: Padding(
         padding: const EdgeInsets.all(40),
         child: Column(
@@ -22,6 +24,7 @@ class EmployeeMenuScreen extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
+                  // fila 1
                   Expanded(
                     child: Row(
                       children: [
@@ -36,8 +39,7 @@ class EmployeeMenuScreen extends StatelessWidget {
                     ),
                   ),
 
-                  //const SizedBox(height: 30),
-
+                  // fila 2
                   Expanded(
                     child: Row(
                       children: [
@@ -55,8 +57,7 @@ class EmployeeMenuScreen extends StatelessWidget {
                     ),
                   ),
 
-                  //const SizedBox(height: 30),
-
+                  // fila 3
                   Expanded(
                     child: Row(
                       children: [
@@ -73,6 +74,29 @@ class EmployeeMenuScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+
+                  // fila extra SOLO si es gerente
+                  if (employee.role == EmployeeRole.manager) ...[
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: MenuButton(
+                              text: "REGISTRO DE USUARIO",
+                              onPressed: () {},
+                            ),
+                          ),
+                          const SizedBox(width: 30),
+                          Expanded(
+                            child: MenuButton(
+                              text: "SABORES DEL DÍA",
+                              onPressed: () {},
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),

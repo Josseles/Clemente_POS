@@ -5,4 +5,5 @@ class AppColors {
   static const background = Color(0xFFF5F5F5);
   static const white = Colors.white;
   static const black = Colors.black;
+  static const azul = Color.fromARGB(255, 90, 244, 255);
 }
