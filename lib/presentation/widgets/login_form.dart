@@ -27,13 +27,13 @@ class _LoginFormState extends State<LoginForm> {
     final employees = [
       Employee(
         id: "1",
-        name: "Juan Perez",
+        name: "empleado",
         role: EmployeeRole.employee,
         phone: "6671234567",
       ),
       Employee(
         id: "2",
-        name: "Ana Lopez",
+        name: "admin",
         role: EmployeeRole.manager,
         phone: "6679876543",
       ),
