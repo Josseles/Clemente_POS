@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../routes/app_routes.dart';
 
 class EmployeeSidebarContent extends StatelessWidget {
   const EmployeeSidebarContent({super.key});
@@ -13,7 +14,7 @@ class EmployeeSidebarContent extends StatelessWidget {
         // 🔹 Botón agregar
         ElevatedButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/employee-register');
+            Navigator.pushNamed(context, AppRoutes.employeeRegister);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,

@@ -5,6 +5,7 @@ import '../../../core/widgets/app_layout.dart';
 import 'widgets/menu_button.dart';
 import '../../../data/models/employee.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../routes/app_routes.dart';
 
 class EmployeeMenuScreen extends StatelessWidget {
   final Employee employee;
@@ -32,8 +33,13 @@ class EmployeeMenuScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: MenuButton(
-                            text: "REGISTRO DE USUARIO",
-                            onPressed: () {},
+                            text: "EMPLEADOS",
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.employeeList,
+                              );
+                            },
                             color: AppColors.azul,
                             isManager: true, // más compacto
                           ),
