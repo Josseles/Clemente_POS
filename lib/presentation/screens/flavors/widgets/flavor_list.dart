@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../../../data/models/flavor.dart';
 
 class FlavorList extends StatelessWidget {
-  final List<Map<String, dynamic>> flavors;
+  final List<Flavor> flavors;
   final Function(int) onToggle;
 
   const FlavorList({
@@ -16,6 +17,7 @@ class FlavorList extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black26),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: ListView.builder(
         itemCount: flavors.length,
@@ -23,9 +25,13 @@ class FlavorList extends StatelessWidget {
           final flavor = flavors[index];
 
           return CheckboxListTile(
-            title: Text(flavor["name"]),
-            value: flavor["selected"],
+            title: Text(
+              flavor.name,
+              style: const TextStyle(fontSize: 16),
+            ),
+            value: flavor.isSelected,
             onChanged: (_) => onToggle(index),
+            controlAffinity: ListTileControlAffinity.leading,
           );
         },
       ),

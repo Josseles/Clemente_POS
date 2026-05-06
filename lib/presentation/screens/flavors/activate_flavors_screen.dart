@@ -1,52 +1,71 @@
 import 'package:flutter/material.dart';
+
+// Core
 import '../../../core/widgets/app_layout.dart';
-import '../menu/widgets/employee_sidebar_content.dart';
+
+// Models
+import '../../../data/models/employee.dart';
+import '../../../data/models/flavor.dart';
+
+// Widgets
 import 'widgets/flavor_list.dart';
 import 'widgets/selected_flavors_panels.dart';
+import 'widgets/flavor_sidebar_content.dart';
 
 class ActivateFlavorsScreen extends StatefulWidget {
-  const ActivateFlavorsScreen({super.key});
+  final Employee employee;
+
+  const ActivateFlavorsScreen({
+    super.key,
+    required this.employee,
+  });
 
   @override
-  State<ActivateFlavorsScreen> createState() => _ActivateFlavorsScreenState();
+  State<ActivateFlavorsScreen> createState() =>
+      _ActivateFlavorsScreenState();
 }
 
-class _ActivateFlavorsScreenState extends State<ActivateFlavorsScreen> {
-  List<Map<String, dynamic>> flavors = [
-    {"name": "Chocolate", "selected": false},
-    {"name": "Vainilla", "selected": false},
-    {"name": "Fresa", "selected": false},
-    {"name": "Mango", "selected": false},
-    {"name": "Oreo", "selected": false},
+class _ActivateFlavorsScreenState
+    extends State<ActivateFlavorsScreen> {
+  List<Flavor> flavors = [
+    Flavor(id: "1", name: "Chocolate"),
+    Flavor(id: "2", name: "Vainilla"),
+    Flavor(id: "3", name: "Fresa"),
+    Flavor(id: "4", name: "Mango"),
+    Flavor(id: "5", name: "Oreo"),
   ];
 
   void toggleFlavor(int index) {
     setState(() {
-      flavors[index]["selected"] = !flavors[index]["selected"];
+      flavors[index].isSelected =
+          !flavors[index].isSelected;
     });
   }
 
   List<String> get selectedFlavors {
     return flavors
-        .where((f) => f["selected"])
-        .map((f) => f["name"] as String)
+        .where((f) => f.isSelected)
+        .map((f) => f.name)
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
     return AppLayout(
-      sidebarContent: const EmployeeSidebarContent(),
+      sidebarContent: const FlavorSidebarContent(),
+
       child: Padding(
         padding: const EdgeInsets.all(30),
         child: Row(
           children: [
-            // 🔹 Panel izquierdo (seleccionados)
-            SelectedFlavorsPanel(selectedFlavors: selectedFlavors),
+            // 🔹 Panel izquierdo
+            SelectedFlavorsPanel(
+              selectedFlavors: selectedFlavors,
+            ),
 
             const SizedBox(width: 30),
 
-            // 🔹 Lista scrolleable
+            // 🔹 Lista
             Expanded(
               child: FlavorList(
                 flavors: flavors,

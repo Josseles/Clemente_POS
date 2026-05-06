@@ -10,7 +10,14 @@ void main() async {
     DeviceOrientation.landscapeRight,
   ]);
 
-  runApp(const MyApp());
+  runApp(
+    MaterialApp(
+      initialRoute: AppRoutes.login,
+      routes: AppRoutes.routes,
+      onGenerateRoute: AppRoutes.generateRoute, // 🔥 CLAVE
+      debugShowCheckedModeBanner: false,
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -27,4 +34,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

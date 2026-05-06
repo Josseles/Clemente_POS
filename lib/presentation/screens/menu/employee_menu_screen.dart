@@ -47,8 +47,14 @@ class EmployeeMenuScreen extends StatelessWidget {
                         const SizedBox(width: 30),
                         Expanded(
                           child: MenuButton(
-                            text: "SABORES DEL DÍA",
-                            onPressed: () {},
+                            text: "ACTIVAR SABORES DEL DÍA",
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.activateFlavors,
+                                arguments: employee,
+                              );
+                            },
                             color: AppColors.azul,
                             isManager: true, // más compacto
                           ),
@@ -61,7 +67,16 @@ class EmployeeMenuScreen extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: MenuButton(text: "VENTA", onPressed: () {}),
+                        child: MenuButton(
+                          text: "VENTA",
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.salesProducts,
+                              arguments: employee,
+                            );
+                          },
+                        ),
                       ),
                       const SizedBox(width: 30),
                       Expanded(
