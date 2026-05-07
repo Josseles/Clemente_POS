@@ -9,6 +9,9 @@ import '../presentation/screens/flavors/activate_flavors_screen.dart';
 import '../presentation/screens/sales/sales_products_screen.dart';
 import '../presentation/screens/sales/sales_type_screen.dart';
 import '../presentation/screens/sales/sales_flavors_screen.dart';
+import '../presentation/screens/productions/production_list_screen.dart';
+import '../presentation/screens/productions/production_register_screen.dart';
+import '../presentation/screens/reports/report_filter_screen.dart';
 
 // Models
 import '../data/models/employee.dart';
@@ -24,6 +27,9 @@ class AppRoutes {
   static const salesProducts = '/sales-products';
   static const salesType = '/sales-type';
   static const salesFlavors = '/sales-flavors';
+  static const productionList = '/production-list';
+  static const productionRegister = '/production-register';
+  static const reportFilter = '/report-filter';
 
   // 🔹 Map básico (sin argumentos)
   static Map<String, WidgetBuilder> routes = {
@@ -33,6 +39,9 @@ class AppRoutes {
     flavorRegister: (context) => const Scaffold(
       body: Center(child: Text("Pantalla registrar sabor (pendiente)")),
     ),
+    productionList: (context) => const ProductionListScreen(),
+    productionRegister: (context) => const ProductionRegisterScreen(),
+    reportFilter: (context) => const ReportFilterScreen(),
   };
 
   //Manejo de rutas con argumentos

@@ -93,7 +93,15 @@ class EmployeeMenuScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 30),
                       Expanded(
-                        child: MenuButton(text: "REPORTES", onPressed: () {}),
+                        child: MenuButton(
+                          text: "REPORTES",
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.reportFilter,
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -106,7 +114,15 @@ class EmployeeMenuScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 30),
                       Expanded(
-                        child: MenuButton(text: "PRODUCCIÓN", onPressed: () {}),
+                        child: MenuButton(
+                          text: "PRODUCCIÓN",
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.productionList,
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
