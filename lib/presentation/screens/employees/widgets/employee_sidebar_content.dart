@@ -11,14 +11,14 @@ class EmployeeSidebarContent extends StatelessWidget {
       children: [
         const SizedBox(height: 20),
 
-        // 🔹 Botón agregar
+        //Botón agregar
         ElevatedButton(
           onPressed: () {
             Navigator.pushNamed(context, AppRoutes.employeeRegister);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,
-            foregroundColor: AppColors.primary,
+            foregroundColor: AppColors.black,
             shape: const StadiumBorder(),
           ),
           child: const Text("Agregar nuevo usuario"),
@@ -26,14 +26,14 @@ class EmployeeSidebarContent extends StatelessWidget {
 
         const Spacer(),
 
-        // 🔹 Botón regresar
+        //Botón regresar
         ElevatedButton(
           onPressed: () {
             Navigator.pop(context);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,
-            foregroundColor: AppColors.primary,
+            foregroundColor: AppColors.black,
             shape: const StadiumBorder(),
           ),
           child: const Text("Regresar"),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Core
-import '../../../core/widgets/app_layout.dart';
+import '../../../core/widgets/admin_layout.dart';
 
 // Models
 import '../../../data/models/employee.dart';
@@ -51,7 +51,7 @@ class _ActivateFlavorsScreenState
 
   @override
   Widget build(BuildContext context) {
-    return AppLayout(
+    return AdminAppLayout(
       sidebarContent: const FlavorSidebarContent(),
 
       child: Padding(

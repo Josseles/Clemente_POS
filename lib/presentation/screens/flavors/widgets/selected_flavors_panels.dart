@@ -14,13 +14,13 @@ class SelectedFlavorsPanel extends StatelessWidget {
     return Container(
       width: 220,
       padding: const EdgeInsets.all(16),
-      color: AppColors.primary,
+      color: AppColors.azul,
       child: Column(
         children: [
           const Text(
             "Sabores del día",
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -42,9 +42,15 @@ class SelectedFlavorsPanel extends StatelessWidget {
           ),
 
           ElevatedButton(
-            onPressed: () {},
-            child: const Text("Aceptar"),
+          onPressed: () {
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            foregroundColor: AppColors.black,
+            shape: const StadiumBorder(),
           ),
+          child: const Text("Actualizar sabores"),
+        ),
         ],
       ),
     );

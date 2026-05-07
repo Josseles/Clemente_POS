@@ -1,32 +1,27 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../routes/app_routes.dart';
 
-class FlavorSidebarContent extends StatelessWidget {
-  const FlavorSidebarContent({super.key});
+class EmployeeRegisterSidebar extends StatelessWidget {
+  const EmployeeRegisterSidebar({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 20),
-
-        // 🔹 Botón agregar sabor
+        const Spacer(),
+        //Botón agregar
         ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, AppRoutes.flavorRegister);
-          },
+          onPressed: () {},
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,
             foregroundColor: AppColors.black,
             shape: const StadiumBorder(),
+            minimumSize: const Size(140, 50),
           ),
-          child: const Text("Agregar nuevo sabor"),
+          child: const Text("Confirmar"),
         ),
-
-        const Spacer(),
-
-        // 🔹 Botón regresar
+        const SizedBox(height: 30),
+        //Botón regresar
         ElevatedButton(
           onPressed: () {
             Navigator.pop(context);
@@ -35,11 +30,12 @@ class FlavorSidebarContent extends StatelessWidget {
             backgroundColor: Colors.white,
             foregroundColor: AppColors.black,
             shape: const StadiumBorder(),
+            minimumSize: const Size(140, 50),
           ),
           child: const Text("Regresar"),
         ),
 
-        const SizedBox(height: 20),
+        const SizedBox(height: 30),
       ],
     );
   }

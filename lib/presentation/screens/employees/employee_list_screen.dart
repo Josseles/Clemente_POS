@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Core
-import '../../../core/widgets/app_layout.dart';
+import '../../../core/widgets/admin_layout.dart';
 
 // Models
 import '../../../data/models/employee.dart';
@@ -31,7 +31,7 @@ class EmployeeListScreen extends StatelessWidget {
       ),
     ];
 
-    return AppLayout(
+    return AdminAppLayout(
       sidebarContent: const EmployeeSidebarContent(),
 
       child: Padding(

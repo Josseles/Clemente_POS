@@ -6,6 +6,7 @@ import '../presentation/screens/menu/employee_menu_screen.dart';
 import '../presentation/screens/employees/employee_list_screen.dart';
 import '../presentation/screens/employees/employee_register_screen.dart';
 import '../presentation/screens/flavors/activate_flavors_screen.dart';
+import '../presentation/screens/flavors/flavor_register_screen.dart';
 import '../presentation/screens/sales/sales_products_screen.dart';
 import '../presentation/screens/sales/sales_type_screen.dart';
 import '../presentation/screens/sales/sales_flavors_screen.dart';
@@ -36,9 +37,7 @@ class AppRoutes {
     login: (context) => const LoginScreen(),
     employeeList: (context) => const EmployeeListScreen(),
     employeeRegister: (context) => const EmployeeRegisterScreen(),
-    flavorRegister: (context) => const Scaffold(
-      body: Center(child: Text("Pantalla registrar sabor (pendiente)")),
-    ),
+    flavorRegister: (context) => const FlavorRegisterScreen(),
     productionList: (context) => const ProductionListScreen(),
     productionRegister: (context) => const ProductionRegisterScreen(),
     reportFilter: (context) => const ReportFilterScreen(),
