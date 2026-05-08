@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
- 
+import '../../../core/widgets/app_textfield.dart';
 
 class PurchaseRegisterScreen extends StatelessWidget {
   const PurchaseRegisterScreen({super.key});
@@ -48,21 +48,24 @@ class PurchaseRegisterScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20),
-                  TextField(
-                    decoration: const InputDecoration(labelText: "Insumo"),
+                  AppTextField(
+                    hint: "Insumo",
+                    controller: TextEditingController(),
                   ),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: "Cantidad unitaria",
-                    ),
+                  const SizedBox(height: 10),
+                  AppTextField(
+                    hint: "Cantidad unitaria",
+                    controller: TextEditingController(),
                   ),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: "Total pagado",
-                    ),
+                  const SizedBox(height: 10),
+                  AppTextField(
+                    hint: "Total pagado",
+                    controller: TextEditingController(),
                   ),
-                  TextField(
-                    decoration: const InputDecoration(labelText: "Proveedor"),
+                  const SizedBox(height: 10),
+                  AppTextField(
+                    hint: "Proveedor",
+                    controller: TextEditingController(),
                   ),
                 ],
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
+import '../../../core/widgets/app_textfield.dart';
 
 class ProductionListScreen extends StatelessWidget {
   const ProductionListScreen({super.key});
@@ -48,12 +49,13 @@ class ProductionListScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: "Buscar producción",
-                      prefixIcon: Icon(Icons.search),
-                    ),
+
+                  //Buscador
+                  AppTextField(
+                    hint: "Buscar producción",
+                    controller: TextEditingController(),
                   ),
+
                   const SizedBox(height: 20),
                   Expanded(
                     child: ListView(

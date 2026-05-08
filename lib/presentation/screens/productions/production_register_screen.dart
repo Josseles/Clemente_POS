@@ -1,5 +1,6 @@
 import 'package:clemente_pos/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import '../../../core/widgets/app_textfield.dart';
 
 class ProductionRegisterScreen extends StatelessWidget {
   const ProductionRegisterScreen({super.key});
@@ -48,25 +49,24 @@ class ProductionRegisterScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20),
-                  TextField(
-                    decoration: const InputDecoration(labelText: "Sabor"),
+                  AppTextField(
+                    hint: "Sabor",
+                    controller: TextEditingController(),
                   ),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: "Cantidad en litros",
-                    ),
-                    keyboardType: TextInputType.number,
+                  const SizedBox(height: 10),
+                  AppTextField(
+                    hint: "Cantidad en litros",
+                    controller: TextEditingController(),
                   ),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: "Fecha de producción",
-                    ),
+                  const SizedBox(height: 10),
+                  AppTextField(
+                    hint: "Fecha de producción",
+                    controller: TextEditingController(),
                   ),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: "Costo de producción",
-                    ),
-                    keyboardType: TextInputType.number,
+                  const SizedBox(height: 10),
+                  AppTextField(
+                    hint: "Costo de producción",
+                    controller: TextEditingController(),
                   ),
                 ],
               ),

@@ -1,5 +1,6 @@
 import 'package:clemente_pos/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import '../../../core/widgets/app_textfield.dart';
 
 class ReportFilterScreen extends StatefulWidget {
   const ReportFilterScreen({super.key});
@@ -33,14 +34,12 @@ class _ReportFilterScreenState extends State<ReportFilterScreen> {
   }
 
   void _exportToPDF() {
-    // Aquí luego integras librería como `pdf` de Dart
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(const SnackBar(content: Text("Exportar a PDF (pendiente)")));
   }
 
   void _exportToExcel() {
-    // Aquí luego integras librería como `excel` de Dart
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text("Exportar a Excel (pendiente)")),
     );
@@ -87,19 +86,26 @@ class _ReportFilterScreenState extends State<ReportFilterScreen> {
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20),
-                  TextField(
-                    decoration: const InputDecoration(labelText: "Fecha"),
+
+                  // 🔹 Aquí solo se reemplazaron los TextField por AppTextField
+                  AppTextField(
+                    hint: "Fecha",
+                    controller: TextEditingController(),
                   ),
-                  TextField(
-                    decoration: const InputDecoration(labelText: "Usuario"),
+                  const SizedBox(height: 10),
+                  AppTextField(
+                    hint: "Usuario",
+                    controller: TextEditingController(),
                   ),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: "Tipo de movimiento",
-                    ),
+                  const SizedBox(height: 10),
+                  AppTextField(
+                    hint: "Tipo de movimiento",
+                    controller: TextEditingController(),
                   ),
-                  TextField(
-                    decoration: const InputDecoration(labelText: "Producto"),
+                  const SizedBox(height: 10),
+                  AppTextField(
+                    hint: "Producto",
+                    controller: TextEditingController(),
                   ),
                   const SizedBox(height: 20),
 

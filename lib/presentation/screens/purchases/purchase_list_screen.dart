@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/app_textfield.dart';
 
 class PurchaseListScreen extends StatelessWidget {
   const PurchaseListScreen({super.key});
@@ -54,12 +55,13 @@ class PurchaseListScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: "Buscar compra",
-                      prefixIcon: Icon(Icons.search),
-                    ),
+
+                  // Buscador
+                  AppTextField(
+                    hint: "Buscar compra",
+                    controller: TextEditingController(),
                   ),
+
                   const SizedBox(height: 20),
                   // Lista simulada
                   Expanded(

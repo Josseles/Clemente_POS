@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/app_textfield.dart';
 
 class SupplierRegisterScreen extends StatelessWidget {
   const SupplierRegisterScreen({super.key});
@@ -48,18 +49,19 @@ class SupplierRegisterScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20),
-                  TextField(
-                    decoration: const InputDecoration(labelText: "Nombre"),
+                  AppTextField(
+                    hint: "Nombre",
+                    controller: TextEditingController(),
                   ),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: "Producto/marca",
-                    ),
+                  const SizedBox(height: 10),
+                  AppTextField(
+                    hint: "Producto/marca",
+                    controller: TextEditingController(),
                   ),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: "Número de teléfono",
-                    ),
+                  const SizedBox(height: 10),
+                  AppTextField(
+                    hint: "Número de teléfono",
+                    controller: TextEditingController(),
                   ),
                 ],
               ),
