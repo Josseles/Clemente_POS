@@ -13,6 +13,9 @@ import '../presentation/screens/sales/sales_flavors_screen.dart';
 import '../presentation/screens/productions/production_list_screen.dart';
 import '../presentation/screens/productions/production_register_screen.dart';
 import '../presentation/screens/reports/report_filter_screen.dart';
+import '../presentation/screens/purchases/purchase_register_screen.dart';
+import '../presentation/screens/purchases/purchase_list_screen.dart';
+import '../presentation/screens/purchases/supplier_register_screen.dart';
 
 // Models
 import '../data/models/employee.dart';
@@ -31,6 +34,9 @@ class AppRoutes {
   static const productionList = '/production-list';
   static const productionRegister = '/production-register';
   static const reportFilter = '/report-filter';
+  static const purchaseRegister = '/purchase-register';
+  static const purchaseList = '/purchase-list';
+  static const supplierRegister = '/supplier-register';
 
   // 🔹 Map básico (sin argumentos)
   static Map<String, WidgetBuilder> routes = {
@@ -41,6 +47,9 @@ class AppRoutes {
     productionList: (context) => const ProductionListScreen(),
     productionRegister: (context) => const ProductionRegisterScreen(),
     reportFilter: (context) => const ReportFilterScreen(),
+    purchaseRegister: (context) => const PurchaseRegisterScreen(),
+    purchaseList: (context) => const PurchaseListScreen(),
+    supplierRegister: (context) => const SupplierRegisterScreen(),
   };
 
   //Manejo de rutas con argumentos
