@@ -89,7 +89,13 @@ class EmployeeMenuScreen extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: MenuButton(text: "INVENTARIO", onPressed: () {}),
+                        child: MenuButton(
+                          text: "INVENTARIO",
+
+                          onPressed: () {
+                            Navigator.pushNamed(context, AppRoutes.inventory);
+                          },
+                        ),
                       ),
                       const SizedBox(width: 30),
                       Expanded(

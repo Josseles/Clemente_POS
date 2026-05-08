@@ -6,6 +6,7 @@ class SalesSidebar extends StatelessWidget {
   final VoidCallback onConfirm;
   final VoidCallback onBack;
   final bool showConfirmButton;
+  final String confirmText;
 
   const SalesSidebar({
     super.key,
@@ -13,6 +14,7 @@ class SalesSidebar extends StatelessWidget {
     required this.onConfirm,
     required this.onBack,
     this.showConfirmButton = false,
+    this.confirmText = "CONFIRMAR VENTA",
   });
 
   @override
@@ -25,6 +27,7 @@ class SalesSidebar extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: onBack,
+            style: ElevatedButton.styleFrom(foregroundColor: Colors.black),
             child: const Text("VOLVER"),
           ),
 
@@ -40,10 +43,12 @@ class SalesSidebar extends StatelessWidget {
           Expanded(
             child: ListView(
               children: selectedProducts
-                  .map((p) => Text(
-                        "• $p",
-                        style: const TextStyle(color: Colors.white),
-                      ))
+                  .map(
+                    (p) => Text(
+                      "• $p",
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  )
                   .toList(),
             ),
           ),
@@ -51,7 +56,8 @@ class SalesSidebar extends StatelessWidget {
           if (showConfirmButton) ...[
             ElevatedButton(
               onPressed: onConfirm,
-              child: const Text("CONFIRMAR VENTA"),
+              style: ElevatedButton.styleFrom(foregroundColor: Colors.black),
+              child: Text(confirmText),
             ),
           ],
         ],

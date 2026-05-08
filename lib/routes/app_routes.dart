@@ -16,6 +16,7 @@ import '../presentation/screens/reports/report_filter_screen.dart';
 import '../presentation/screens/purchases/purchase_register_screen.dart';
 import '../presentation/screens/purchases/purchase_list_screen.dart';
 import '../presentation/screens/purchases/supplier_register_screen.dart';
+import '../presentation/screens/inventory/inventory_screen.dart';
 
 // Models
 import '../data/models/employee.dart';
@@ -30,14 +31,16 @@ class AppRoutes {
   static const flavorRegister = '/flavor-register';
   static const salesProducts = '/sales-products';
   static const salesType = '/sales-type';
+
   static const salesFlavors = '/sales-flavors';
+
   static const productionList = '/production-list';
   static const productionRegister = '/production-register';
   static const reportFilter = '/report-filter';
   static const purchaseRegister = '/purchase-register';
   static const purchaseList = '/purchase-list';
   static const supplierRegister = '/supplier-register';
-
+  static const inventory = '/inventory';
   // 🔹 Map básico (sin argumentos)
   static Map<String, WidgetBuilder> routes = {
     login: (context) => const LoginScreen(),
@@ -50,6 +53,7 @@ class AppRoutes {
     purchaseRegister: (context) => const PurchaseRegisterScreen(),
     purchaseList: (context) => const PurchaseListScreen(),
     supplierRegister: (context) => const SupplierRegisterScreen(),
+    inventory: (context) => const InventoryScreen(),
   };
 
   //Manejo de rutas con argumentos
@@ -71,6 +75,13 @@ class AppRoutes {
         final product = settings.arguments as String;
         return MaterialPageRoute(
           builder: (_) => SalesTypeScreen(product: product),
+        );
+
+      case salesFlavors:
+        final product = settings.arguments as String;
+
+        return MaterialPageRoute(
+          builder: (_) => SalesFlavorsScreen(product: product),
         );
 
       case AppRoutes.salesProducts:

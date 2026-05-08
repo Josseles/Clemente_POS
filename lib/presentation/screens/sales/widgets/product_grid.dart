@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:clemente_pos/core/theme/app_colors.dart';
 
 class ProductGrid extends StatelessWidget {
   final List<String> products;
@@ -25,7 +26,28 @@ class ProductGrid extends StatelessWidget {
 
         return ElevatedButton(
           onPressed: () => onSelect(product),
-          child: Text(product),
+
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.primary,
+
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+
+            elevation: 4,
+          ),
+
+          child: Text(
+            product,
+
+            textAlign: TextAlign.center,
+
+            style: const TextStyle(
+              fontSize: 26,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
         );
       },
     );
