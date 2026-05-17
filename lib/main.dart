@@ -1,3 +1,4 @@
+import 'package:clemente_pos/database/database_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -6,6 +7,11 @@ import 'routes/app_routes.dart';
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  final dbHelper = DatabaseHelper.instance;
+  
+  final db = await dbHelper.database;
+  print("Conexión exitosa. Ruta: ${db.path}");
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
