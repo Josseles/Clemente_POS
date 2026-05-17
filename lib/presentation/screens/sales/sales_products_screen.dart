@@ -77,7 +77,7 @@ class _SalesProductsScreenState extends State<SalesProductsScreen> {
 
                         // 🔹 Método de pago
                         DropdownButtonFormField<String>(
-                          value: paymentMethod,
+                          initialValue: paymentMethod,
 
                           decoration: const InputDecoration(
                             labelText: "Método de pago",
