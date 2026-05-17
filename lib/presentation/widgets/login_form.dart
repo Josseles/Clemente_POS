@@ -23,21 +23,21 @@ class _LoginFormState extends State<LoginForm> {
       return;
     }
 
-    // Lista de prueba
-    final employees = [
-      Employee(
-        id: "1",
-        name: "empleado",
-        role: EmployeeRole.employee,
-        phone: "6671234567",
-      ),
-      Employee(
-        id: "2",
-        name: "admin",
-        role: EmployeeRole.manager,
-        phone: "6679876543",
-      ),
-    ];
+    // // Lista de prueba
+    // final employees = [
+    //   Employee(
+    //     id: "1",
+    //     name: "empleado",
+    //     role: EmployeeRole.employee,
+    //     phone: "6671234567",
+    //   ),
+    //   Employee(
+    //     id: "2",
+    //     name: "admin",
+    //     role: EmployeeRole.manager,
+    //     phone: "6679876543",
+    //   ),
+    // ];
 
     try {
       // Buscar empleado por nombre (ignora mayúsculas/minúsculas)

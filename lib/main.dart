@@ -3,9 +3,13 @@ import 'package:flutter/services.dart';
 
 import 'routes/app_routes.dart';
 
+import 'data/database/database_helper.dart';
+
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  await DatabaseHelper.instance.database;
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
