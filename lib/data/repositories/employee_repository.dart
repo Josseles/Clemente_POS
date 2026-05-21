@@ -28,7 +28,7 @@ class EmployeeRepository {
   }
 
   /// Buscar empleado por ID
-  Future<Employee?> obtenerPorId(String id) async {
+  Future<Employee?> obtenerPorId(int id) async {
     final Database db = await _databaseHelper.database;
 
     final List<Map<String, dynamic>> mapas = await db.query(
@@ -44,17 +44,17 @@ class EmployeeRepository {
     return null;
   }
 
-  /// Login por usuario y PIN
+  /// Login por nombre (usuario) y PIN
   Future<Employee?> login(
-    String usuario,
+    String nombre,
     String pin,
   ) async {
     final Database db = await _databaseHelper.database;
 
     final List<Map<String, dynamic>> mapas = await db.query(
       'employee',
-      where: 'usuario = ? AND pin = ?',
-      whereArgs: [usuario, pin],
+      where: 'nombre = ? AND pin = ?',
+      whereArgs: [nombre, pin],
     );
 
     if (mapas.isNotEmpty) {
@@ -77,7 +77,7 @@ class EmployeeRepository {
   }
 
   /// Eliminar empleado
-  Future<int> eliminar(String id) async {
+  Future<int> eliminar(int id) async {
     final Database db = await _databaseHelper.database;
 
     return await db.delete(

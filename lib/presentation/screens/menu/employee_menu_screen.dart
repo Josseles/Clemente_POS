@@ -10,7 +10,10 @@ import '../../../routes/app_routes.dart';
 class EmployeeMenuScreen extends StatelessWidget {
   final Employee employee;
 
-  const EmployeeMenuScreen({super.key, required this.employee});
+  const EmployeeMenuScreen({
+    super.key,
+    required this.employee,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +30,9 @@ class EmployeeMenuScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // fila extra SOLO si es manager (arriba)
-                  if (employee.role == EmployeeRole.manager) ...[
+                  // Fila adicional solo para administradores
+                  if (employee.rol ==
+                      RolEmpleado.Administrador) ...[
                     Row(
                       children: [
                         Expanded(
@@ -41,13 +45,14 @@ class EmployeeMenuScreen extends StatelessWidget {
                               );
                             },
                             color: AppColors.azul,
-                            isManager: true, // más compacto
+                            isManager: true,
                           ),
                         ),
                         const SizedBox(width: 30),
                         Expanded(
                           child: MenuButton(
-                            text: "ACTIVAR SABORES DEL DÍA",
+                            text:
+                                "ACTIVAR SABORES DEL DÍA",
                             onPressed: () {
                               Navigator.pushNamed(
                                 context,
@@ -56,14 +61,14 @@ class EmployeeMenuScreen extends StatelessWidget {
                               );
                             },
                             color: AppColors.azul,
-                            isManager: true, // más compacto
+                            isManager: true,
                           ),
                         ),
                       ],
                     ),
                   ],
 
-                  // fila 1
+                  // Fila 1
                   Row(
                     children: [
                       Expanded(
@@ -80,20 +85,25 @@ class EmployeeMenuScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 30),
                       Expanded(
-                        child: MenuButton(text: "SABORES", onPressed: () {}),
+                        child: MenuButton(
+                          text: "SABORES",
+                          onPressed: () {},
+                        ),
                       ),
                     ],
                   ),
 
-                  // fila 2
+                  // Fila 2
                   Row(
                     children: [
                       Expanded(
                         child: MenuButton(
                           text: "INVENTARIO",
-
                           onPressed: () {
-                            Navigator.pushNamed(context, AppRoutes.inventory);
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.inventory,
+                            );
                           },
                         ),
                       ),
@@ -112,7 +122,7 @@ class EmployeeMenuScreen extends StatelessWidget {
                     ],
                   ),
 
-                  // fila 3
+                  // Fila 3
                   Row(
                     children: [
                       Expanded(

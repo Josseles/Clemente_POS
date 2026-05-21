@@ -46,7 +46,7 @@ class InventoryTable extends StatelessWidget {
                   Expanded(
                     child: Center(
                       child: Text(
-                        "Categoría",
+                        "Costo",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -88,13 +88,15 @@ class InventoryTable extends StatelessWidget {
 
                         Expanded(
                           child: Center(
-                            child: Text(item.name),
+                            child: Text(item.nombre),
                           ),
                         ),
 
                         Expanded(
                           child: Center(
-                            child: Text(item.category),
+                            child: Text(
+                              "\$${item.costo.toStringAsFixed(2)}",
+                            ),
                           ),
                         ),
 

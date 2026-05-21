@@ -26,10 +26,10 @@ class FlavorList extends StatelessWidget {
 
           return CheckboxListTile(
             title: Text(
-              flavor.name,
+              flavor.nombre,
               style: const TextStyle(fontSize: 16),
             ),
-            value: flavor.isSelected,
+            value: flavor.activo,
             onChanged: (_) => onToggle(index),
             controlAffinity: ListTileControlAffinity.leading,
           );

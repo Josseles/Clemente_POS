@@ -18,6 +18,22 @@ class Flavor {
     this.activo = false,
   });
 
+  Flavor copyWith({
+    String? id,
+    String? nombre,
+    CategoriaSabor? categoria,
+    double? stockLitros,
+    bool? activo,
+  }) {
+    return Flavor(
+      id: id ?? this.id,
+      nombre: nombre ?? this.nombre,
+      categoria: categoria ?? this.categoria,
+      stockLitros: stockLitros ?? this.stockLitros,
+      activo: activo ?? this.activo,
+    );
+  }
+
   /// Convierte el objeto Flavor a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {

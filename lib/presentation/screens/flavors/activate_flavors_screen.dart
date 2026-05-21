@@ -6,6 +6,7 @@ import '../../../core/widgets/admin_layout.dart';
 // Models
 import '../../../data/models/employee.dart';
 import '../../../data/models/flavor.dart';
+import '../../../data/repositories/flavor_repository.dart';
 
 // Widgets
 import 'widgets/flavor_list.dart';
@@ -27,25 +28,55 @@ class ActivateFlavorsScreen extends StatefulWidget {
 
 class _ActivateFlavorsScreenState
     extends State<ActivateFlavorsScreen> {
-  List<Flavor> flavors = [
-    Flavor(id: "1", name: "Chocolate"),
-    Flavor(id: "2", name: "Vainilla"),
-    Flavor(id: "3", name: "Fresa"),
-    Flavor(id: "4", name: "Mango"),
-    Flavor(id: "5", name: "Oreo"),
-  ];
+  final FlavorRepository _repository = FlavorRepository();
+  List<Flavor> flavors = [];
+  bool _isLoading = true;
 
-  void toggleFlavor(int index) {
-    setState(() {
-      flavors[index].isSelected =
-          !flavors[index].isSelected;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _loadFlavors();
+  }
+
+  Future<void> _loadFlavors() async {
+    try {
+      final data = await _repository.obtenerTodos();
+      setState(() {
+        flavors = data;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error al cargar sabores: $e")),
+        );
+      }
+    }
+  }
+
+  Future<void> toggleFlavor(int index) async {
+    final flavor = flavors[index];
+    final updatedFlavor = flavor.copyWith(activo: !flavor.activo);
+
+    try {
+      await _repository.actualizar(updatedFlavor);
+      setState(() {
+        flavors[index] = updatedFlavor;
+      });
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error al actualizar sabor: $e")),
+        );
+      }
+    }
   }
 
   List<String> get selectedFlavors {
     return flavors
-        .where((f) => f.isSelected)
-        .map((f) => f.name)
+        .where((f) => f.activo)
+        .map((f) => f.nombre)
         .toList();
   }
 
@@ -53,27 +84,30 @@ class _ActivateFlavorsScreenState
   Widget build(BuildContext context) {
     return AdminAppLayout(
       sidebarContent: const FlavorSidebarContent(),
-
       child: Padding(
         padding: const EdgeInsets.all(30),
-        child: Row(
-          children: [
-            // 🔹 Panel izquierdo
-            SelectedFlavorsPanel(
-              selectedFlavors: selectedFlavors,
-            ),
+        child: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Row(
+                children: [
+                  // 🔹 Panel izquierdo
+                  SelectedFlavorsPanel(
+                    selectedFlavors: selectedFlavors,
+                  ),
 
-            const SizedBox(width: 30),
+                  const SizedBox(width: 30),
 
-            // 🔹 Lista
-            Expanded(
-              child: FlavorList(
-                flavors: flavors,
-                onToggle: toggleFlavor,
+                  // 🔹 Lista
+                  Expanded(
+                    child: flavors.isEmpty
+                        ? const Center(child: Text("No hay sabores registrados"))
+                        : FlavorList(
+                            flavors: flavors,
+                            onToggle: toggleFlavor,
+                          ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }

@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class EmployeeRegisterSidebar extends StatelessWidget {
-  const EmployeeRegisterSidebar({super.key});
+  final VoidCallback onConfirm;
+  
+  const EmployeeRegisterSidebar({
+    super.key,
+    required this.onConfirm,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +16,7 @@ class EmployeeRegisterSidebar extends StatelessWidget {
         const Spacer(),
         //Botón agregar
         ElevatedButton(
-          onPressed: () {},
+          onPressed: onConfirm,
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,
             foregroundColor: AppColors.black,
