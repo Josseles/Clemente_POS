@@ -1,32 +1,32 @@
 class Purchase {
   final int? id;
-  final int supplierId;
-  final String date;
+  final int proveedorId;
+  final String fecha;
   final double total;
 
   Purchase({
     this.id,
-    required this.supplierId,
-    required this.date,
+    required this.proveedorId,
+    required this.fecha,
     required this.total,
   });
 
-  /// Convertir objeto a Map para SQLite
+  /// Convierte el objeto Purchase a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'proveedorId': supplierId,
-      'fecha': date,
+      'proveedorId': proveedorId,
+      'fecha': fecha,
       'total': total,
     };
   }
 
-  /// Crear objeto desde un Map de SQLite
+  /// Crea un Purchase a partir de un Map<String, dynamic>
   factory Purchase.fromMap(Map<String, dynamic> map) {
     return Purchase(
       id: map['id'] as int?,
-      supplierId: map['proveedorId'] as int,
-      date: map['fecha'] as String,
+      proveedorId: map['proveedorId'] as int,
+      fecha: map['fecha'] as String,
       total: (map['total'] as num).toDouble(),
     );
   }

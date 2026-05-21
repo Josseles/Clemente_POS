@@ -8,31 +8,31 @@ class PurchaseRepository {
   final DatabaseHelper _databaseHelper = DatabaseHelper.instance;
 
   /// Insertar una compra completa con sus detalles
-  Future<int> insert(
-    Purchase purchase,
-    List<PurchaseDetail> details,
+  Future<int> insertar(
+    Purchase compra,
+    List<PurchaseDetail> detalles,
   ) async {
     final Database db = await _databaseHelper.database;
 
     return await db.transaction((txn) async {
       // Insertar compra
-      final int purchaseId = await txn.insert(
+      final int compraId = await txn.insert(
         'compra',
-        purchase.toMap(),
+        compra.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
 
-      // Insertar detalles
-      for (final detail in details) {
+      // Insertar detalles y actualizar inventario
+      for (final detalle in detalles) {
         await txn.insert(
           'detalleCompra',
           {
-            ...detail.toMap(),
-            'compraId': purchaseId,
+            ...detalle.toMap(),
+            'compraId': compraId,
           },
         );
 
-        // Actualizar stock del inventario
+        // Actualizar stock del artículo en inventario
         await txn.rawUpdate(
           '''
           UPDATE articuloInventario
@@ -40,60 +40,62 @@ class PurchaseRepository {
           WHERE id = ?
           ''',
           [
-            detail.quantity,
-            detail.inventoryItemId,
+            detalle.cantidad,
+            detalle.articuloInventarioId,
           ],
         );
       }
 
-      return purchaseId;
+      return compraId;
     });
   }
 
   /// Obtener todas las compras
-  Future<List<Purchase>> getAll() async {
+  Future<List<Purchase>> obtenerTodas() async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'compra',
       orderBy: 'fecha DESC',
     );
 
-    return maps.map((map) => Purchase.fromMap(map)).toList();
+    return mapas
+        .map((mapa) => Purchase.fromMap(mapa))
+        .toList();
   }
 
   /// Obtener compra por ID
-  Future<Purchase?> getById(int id) async {
+  Future<Purchase?> obtenerPorId(int id) async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'compra',
       where: 'id = ?',
       whereArgs: [id],
     );
 
-    if (maps.isEmpty) return null;
+    if (mapas.isEmpty) return null;
 
-    return Purchase.fromMap(maps.first);
+    return Purchase.fromMap(mapas.first);
   }
 
   /// Obtener detalles de una compra
-  Future<List<PurchaseDetail>> getDetails(int purchaseId) async {
+  Future<List<PurchaseDetail>> obtenerDetalles(int compraId) async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'detalleCompra',
       where: 'compraId = ?',
-      whereArgs: [purchaseId],
+      whereArgs: [compraId],
     );
 
-    return maps
-        .map((map) => PurchaseDetail.fromMap(map))
+    return mapas
+        .map((mapa) => PurchaseDetail.fromMap(mapa))
         .toList();
   }
 
-  /// Eliminar compra
-  Future<int> delete(int id) async {
+  /// Eliminar compra y sus detalles
+  Future<int> eliminar(int id) async {
     final Database db = await _databaseHelper.database;
 
     return await db.transaction((txn) async {
@@ -111,8 +113,8 @@ class PurchaseRepository {
     });
   }
 
-  /// Contar compras
-  Future<int> count() async {
+  /// Contar compras registradas
+  Future<int> contar() async {
     final Database db = await _databaseHelper.database;
 
     final result = await db.rawQuery(

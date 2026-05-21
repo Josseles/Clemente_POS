@@ -1,47 +1,50 @@
 class Sale {
   final String folio;
-  final String dateTime;
+  final String fechaHora;
   final double total;
-  final double amountReceived;
-  final double change;
-  final String paymentMethod;
-  final int employeeId;
-  final String openingId;
+  final double recibido;
+  final double cambio;
+  final String metodoPago;
+  final int empleadoId;
+  final String aperturaCajaId;
 
   Sale({
     required this.folio,
-    required this.dateTime,
+    required this.fechaHora,
     required this.total,
-    required this.amountReceived,
-    required this.change,
-    required this.paymentMethod,
-    required this.employeeId,
-    required this.openingId,
+    required this.recibido,
+    required this.cambio,
+    required this.metodoPago,
+    required this.empleadoId,
+    required this.aperturaCajaId,
   });
 
+  /// Convierte el objeto Sale a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {
       'folio': folio,
-      'fechaHora': dateTime,
+      'fechaHora': fechaHora,
       'total': total,
-      'recibido': amountReceived,
-      'cambio': change,
-      'metodoPago': paymentMethod,
-      'empleadoId': employeeId,
-      'aperturaCajaId': openingId,
+      'recibido': recibido,
+      'cambio': cambio,
+      'metodoPago': metodoPago,
+      'empleadoId': empleadoId,
+      'aperturaCajaId': aperturaCajaId,
     };
   }
 
+  /// Crea un Sale a partir de un Map<String, dynamic>
   factory Sale.fromMap(Map<String, dynamic> map) {
     return Sale(
-      folio: map['folio'] as String,
-      dateTime: map['fechaHora'] as String,
+      folio: map['folio'].toString(),
+      fechaHora: map['fechaHora'] as String,
       total: (map['total'] as num).toDouble(),
-      amountReceived: (map['recibido'] as num).toDouble(),
-      change: (map['cambio'] as num).toDouble(),
-      paymentMethod: map['metodoPago'] as String,
-      employeeId: map['empleadoId'] as int,
-      openingId: map['aperturaCajaId'] as String,
+      recibido: (map['recibido'] as num).toDouble(),
+      cambio: (map['cambio'] as num).toDouble(),
+      metodoPago: map['metodoPago'] as String,
+      empleadoId: map['empleadoId'] as int,
+      aperturaCajaId:
+          map['aperturaCajaId'].toString(),
     );
   }
 }

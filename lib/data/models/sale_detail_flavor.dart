@@ -1,27 +1,29 @@
 class SaleDetailFlavor {
   final int? id;
-  final int saleDetailId;
-  final String flavorId;
+  final int detalleVentaId;
+  final String saborId;
 
   SaleDetailFlavor({
     this.id,
-    required this.saleDetailId,
-    required this.flavorId,
+    required this.detalleVentaId,
+    required this.saborId,
   });
 
+  /// Convierte el objeto SaleDetailFlavor a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'detalleVentaId': saleDetailId,
-      'saborId': flavorId,
+      'detalleVentaId': detalleVentaId,
+      'saborId': saborId,
     };
   }
 
+  /// Crea un SaleDetailFlavor a partir de un Map<String, dynamic>
   factory SaleDetailFlavor.fromMap(Map<String, dynamic> map) {
     return SaleDetailFlavor(
       id: map['id'] as int?,
-      saleDetailId: map['detalleVentaId'] as int,
-      flavorId: map['saborId'].toString(),
+      detalleVentaId: map['detalleVentaId'] as int,
+      saborId: map['saborId'].toString(),
     );
   }
 }

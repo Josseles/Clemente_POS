@@ -1,42 +1,42 @@
-// lib/data/models/purchase_detail.dart
-
 class PurchaseDetail {
   final int? id;
-  final int purchaseId;
-  final int inventoryItemId;
-  final int quantity;
-  final double unitCost;
+  final int compraId;
+  final int articuloInventarioId;
+  final int cantidad;
+  final double costoUnitario;
 
   PurchaseDetail({
     this.id,
-    required this.purchaseId,
-    required this.inventoryItemId,
-    required this.quantity,
-    required this.unitCost,
+    required this.compraId,
+    required this.articuloInventarioId,
+    required this.cantidad,
+    required this.costoUnitario,
   });
 
   /// Subtotal calculado automáticamente
-  double get subtotal => quantity * unitCost;
+  double get subtotal => cantidad * costoUnitario;
 
-  /// Convertir objeto a Map para SQLite
+  /// Convierte el objeto PurchaseDetail a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'compraId': purchaseId,
-      'articuloInventarioId': inventoryItemId,
-      'cantidad': quantity,
-      'costoUnitario': unitCost,
+      'compraId': compraId,
+      'articuloInventarioId': articuloInventarioId,
+      'cantidad': cantidad,
+      'costoUnitario': costoUnitario,
     };
   }
 
-  /// Crear objeto desde un Map de SQLite
+  /// Crea un PurchaseDetail a partir de un Map<String, dynamic>
   factory PurchaseDetail.fromMap(Map<String, dynamic> map) {
     return PurchaseDetail(
       id: map['id'] as int?,
-      purchaseId: map['compraId'] as int,
-      inventoryItemId: map['articuloInventarioId'] as int,
-      quantity: map['cantidad'] as int,
-      unitCost: (map['costoUnitario'] as num).toDouble(),
+      compraId: map['compraId'] as int,
+      articuloInventarioId:
+          map['articuloInventarioId'] as int,
+      cantidad: map['cantidad'] as int,
+      costoUnitario:
+          (map['costoUnitario'] as num).toDouble(),
     );
   }
 }

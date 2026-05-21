@@ -1,33 +1,33 @@
 class Supplier {
   final int? id;
-  final String name;
-  final String phone;
-  final String product;
+  final String nombre;
+  final String telefono;
+  final String producto;
 
   Supplier({
     this.id,
-    required this.name,
-    required this.phone,
-    required this.product,
+    required this.nombre,
+    required this.telefono,
+    required this.producto,
   });
 
-  /// Convertir objeto a Map para SQLite
+  /// Convierte el objeto Supplier a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'nombre': name,
-      'telefono': phone,
-      'producto': product,
+      'nombre': nombre,
+      'telefono': telefono,
+      'producto': producto,
     };
   }
 
-  /// Crear objeto desde un Map de SQLite
+  /// Crea un Supplier a partir de un Map<String, dynamic>
   factory Supplier.fromMap(Map<String, dynamic> map) {
     return Supplier(
       id: map['id'] as int?,
-      name: map['nombre'] as String,
-      phone: map['telefono'] as String? ?? '',
-      product: map['producto'] as String? ?? '',
+      nombre: map['nombre'] as String,
+      telefono: map['telefono'] as String? ?? '',
+      producto: map['producto'] as String? ?? '',
     );
   }
 }

@@ -22,11 +22,7 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'clemente_pos.db');
 
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: _onCreate,
-    );
+    return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 
   // Crear tablas
@@ -39,7 +35,7 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY,
         nombre TEXT NOT NULL,
         telefono TEXT,
-        password TEXT NOT NULL,
+        pin TEXT NOT NULL,
         rolEmpleado TEXT NOT NULL
           CHECK (rolEmpleado IN ('Administrador', 'Cajero'))
       )
@@ -53,9 +49,10 @@ class DatabaseHelper {
         id TEXT PRIMARY KEY,
         nombre TEXT NOT NULL,
         precio REAL NOT NULL,
-        disponible INTEGER NOT NULL,
-        iva REAL NOT NULL,
-        ieps REAL NOT NULL
+        iva INTEGER NOT NULL
+          CHECK (iva IN (0, 1)),
+        ieps INTEGER NOT NULL
+          CHECK (ieps IN (0, 1))
       )
     ''');
 
@@ -67,6 +64,7 @@ class DatabaseHelper {
         id TEXT PRIMARY KEY,
         nombre TEXT NOT NULL,
         tipo TEXT NOT NULL,
+        stockLitros REAL NOT NULL default 0,
         activo INTEGER NOT NULL
           CHECK (tipo IN ('Agua', 'Crema'))
           CHECK (activo IN (0, 1))

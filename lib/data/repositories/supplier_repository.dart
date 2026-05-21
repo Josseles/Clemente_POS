@@ -7,71 +7,75 @@ class SupplierRepository {
   final DatabaseHelper _databaseHelper = DatabaseHelper.instance;
 
   /// Insertar proveedor
-  Future<int> insert(Supplier supplier) async {
+  Future<int> insertar(Supplier proveedor) async {
     final Database db = await _databaseHelper.database;
 
     return await db.insert(
       'proveedor',
-      supplier.toMap(),
+      proveedor.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
   /// Obtener todos los proveedores
-  Future<List<Supplier>> getAll() async {
+  Future<List<Supplier>> obtenerTodos() async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'proveedor',
       orderBy: 'nombre ASC',
     );
 
-    return maps.map((map) => Supplier.fromMap(map)).toList();
+    return mapas
+        .map((mapa) => Supplier.fromMap(mapa))
+        .toList();
   }
 
   /// Obtener proveedor por ID
-  Future<Supplier?> getById(int id) async {
+  Future<Supplier?> obtenerPorId(int id) async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'proveedor',
       where: 'id = ?',
       whereArgs: [id],
     );
 
-    if (maps.isEmpty) return null;
+    if (mapas.isEmpty) return null;
 
-    return Supplier.fromMap(maps.first);
+    return Supplier.fromMap(mapas.first);
   }
 
   /// Buscar proveedores por nombre
-  Future<List<Supplier>> search(String query) async {
+  Future<List<Supplier>> buscarPorNombre(String texto) async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'proveedor',
       where: 'nombre LIKE ?',
-      whereArgs: ['%$query%'],
+      whereArgs: ['%$texto%'],
       orderBy: 'nombre ASC',
     );
 
-    return maps.map((map) => Supplier.fromMap(map)).toList();
+    return mapas
+        .map((mapa) => Supplier.fromMap(mapa))
+        .toList();
   }
 
   /// Actualizar proveedor
-  Future<int> update(Supplier supplier) async {
+  Future<int> actualizar(Supplier proveedor) async {
     final Database db = await _databaseHelper.database;
 
     return await db.update(
       'proveedor',
-      supplier.toMap(),
+      proveedor.toMap(),
       where: 'id = ?',
-      whereArgs: [supplier.id],
+      whereArgs: [proveedor.id],
     );
   }
 
   /// Eliminar proveedor
-  Future<int> delete(int id) async {
+  Future<int> eliminar(int id) async {
     final Database db = await _databaseHelper.database;
 
     return await db.delete(
@@ -81,8 +85,8 @@ class SupplierRepository {
     );
   }
 
-  /// Contar proveedores
-  Future<int> count() async {
+  /// Contar proveedores registrados
+  Future<int> contar() async {
     final Database db = await _databaseHelper.database;
 
     final result = await db.rawQuery(

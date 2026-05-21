@@ -7,71 +7,75 @@ class FlavorRepository {
   final DatabaseHelper _databaseHelper = DatabaseHelper.instance;
 
   /// Insertar sabor
-  Future<int> insert(Flavor flavor) async {
+  Future<int> insertar(Flavor sabor) async {
     final Database db = await _databaseHelper.database;
 
     return await db.insert(
       'sabor',
-      flavor.toMap(),
+      sabor.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
   /// Obtener todos los sabores
-  Future<List<Flavor>> getAll() async {
+  Future<List<Flavor>> obtenerTodos() async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'sabor',
       orderBy: 'nombre ASC',
     );
 
-    return maps.map((map) => Flavor.fromMap(map)).toList();
+    return mapas
+        .map((mapa) => Flavor.fromMap(mapa))
+        .toList();
   }
 
   /// Obtener sabores activos
-  Future<List<Flavor>> getActive() async {
+  Future<List<Flavor>> obtenerActivos() async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'sabor',
       where: 'activo = ?',
       whereArgs: [1],
       orderBy: 'nombre ASC',
     );
 
-    return maps.map((map) => Flavor.fromMap(map)).toList();
+    return mapas
+        .map((mapa) => Flavor.fromMap(mapa))
+        .toList();
   }
 
-  /// Obtener sabor por ID
-  Future<Flavor?> getById(String id) async {
+  /// Buscar sabor por ID
+  Future<Flavor?> obtenerPorId(String id) async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'sabor',
       where: 'id = ?',
       whereArgs: [id],
     );
 
-    if (maps.isEmpty) return null;
+    if (mapas.isEmpty) return null;
 
-    return Flavor.fromMap(maps.first);
+    return Flavor.fromMap(mapas.first);
   }
 
   /// Actualizar sabor
-  Future<int> update(Flavor flavor) async {
+  Future<int> actualizar(Flavor sabor) async {
     final Database db = await _databaseHelper.database;
 
     return await db.update(
       'sabor',
-      flavor.toMap(),
+      sabor.toMap(),
       where: 'id = ?',
-      whereArgs: [flavor.id],
+      whereArgs: [sabor.id],
     );
   }
 
   /// Eliminar sabor
-  Future<int> delete(String id) async {
+  Future<int> eliminar(String id) async {
     final Database db = await _databaseHelper.database;
 
     return await db.delete(
@@ -81,25 +85,25 @@ class FlavorRepository {
     );
   }
 
-  /// Activar o desactivar sabor
-  Future<int> setActive({
+  /// Cambiar estado activo/inactivo
+  Future<int> cambiarEstadoActivo({
     required String id,
-    required bool isActive,
+    required bool activo,
   }) async {
     final Database db = await _databaseHelper.database;
 
     return await db.update(
       'sabor',
       {
-        'activo': isActive ? 1 : 0,
+        'activo': activo ? 1 : 0,
       },
       where: 'id = ?',
       whereArgs: [id],
     );
   }
 
-  /// Contar sabores
-  Future<int> count() async {
+  /// Contar sabores registrados
+  Future<int> contar() async {
     final Database db = await _databaseHelper.database;
 
     final result = await db.rawQuery(

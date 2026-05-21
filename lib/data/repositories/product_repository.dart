@@ -7,71 +7,59 @@ class ProductRepository {
   final DatabaseHelper _databaseHelper = DatabaseHelper.instance;
 
   /// Insertar producto
-  Future<int> insert(Product product) async {
+  Future<int> insertar(Product producto) async {
     final Database db = await _databaseHelper.database;
 
     return await db.insert(
       'producto',
-      product.toMap(),
+      producto.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
   /// Obtener todos los productos
-  Future<List<Product>> getAll() async {
+  Future<List<Product>> obtenerTodos() async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'producto',
       orderBy: 'nombre ASC',
     );
 
-    return maps.map((map) => Product.fromMap(map)).toList();
-  }
-
-  /// Obtener solo productos disponibles
-  Future<List<Product>> getAvailable() async {
-    final Database db = await _databaseHelper.database;
-
-    final List<Map<String, dynamic>> maps = await db.query(
-      'producto',
-      where: 'disponible = ?',
-      whereArgs: [1],
-      orderBy: 'nombre ASC',
-    );
-
-    return maps.map((map) => Product.fromMap(map)).toList();
+    return mapas
+        .map((mapa) => Product.fromMap(mapa))
+        .toList();
   }
 
   /// Buscar producto por ID
-  Future<Product?> getById(String id) async {
+  Future<Product?> obtenerPorId(String id) async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'producto',
       where: 'id = ?',
       whereArgs: [id],
     );
 
-    if (maps.isEmpty) return null;
+    if (mapas.isEmpty) return null;
 
-    return Product.fromMap(maps.first);
+    return Product.fromMap(mapas.first);
   }
 
   /// Actualizar producto
-  Future<int> update(Product product) async {
+  Future<int> actualizar(Product producto) async {
     final Database db = await _databaseHelper.database;
 
     return await db.update(
       'producto',
-      product.toMap(),
+      producto.toMap(),
       where: 'id = ?',
-      whereArgs: [product.id],
+      whereArgs: [producto.id],
     );
   }
 
   /// Eliminar producto
-  Future<int> delete(String id) async {
+  Future<int> eliminar(String id) async {
     final Database db = await _databaseHelper.database;
 
     return await db.delete(
@@ -81,25 +69,8 @@ class ProductRepository {
     );
   }
 
-  /// Activar o desactivar producto
-  Future<int> setAvailability({
-    required String id,
-    required bool disponible,
-  }) async {
-    final Database db = await _databaseHelper.database;
-
-    return await db.update(
-      'producto',
-      {
-        'disponible': disponible ? 1 : 0,
-      },
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-  }
-
-  /// Contar productos
-  Future<int> count() async {
+  /// Contar productos registrados
+  Future<int> contar() async {
     final Database db = await _databaseHelper.database;
 
     final result = await db.rawQuery(

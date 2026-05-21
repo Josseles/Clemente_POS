@@ -1,40 +1,47 @@
-enum FlavorCategory {
+enum CategoriaSabor {
   agua,
   crema,
 }
 
 class Flavor {
   final String id;
-  final String name;
-  final FlavorCategory category;
-  final bool isActive;
+  final String nombre;
+  final CategoriaSabor categoria;
+  final double stockLitros;
+  final bool activo;
 
   Flavor({
     required this.id,
-    required this.name,
-    required this.category,
-    this.isActive = false,
+    required this.nombre,
+    required this.categoria,
+    required this.stockLitros,
+    this.activo = false,
   });
 
-  /// Convertir objeto Flavor a Map para SQLite
+  /// Convierte el objeto Flavor a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'nombre': name,
-      'tipo': category == FlavorCategory.agua ? 'Agua' : 'Crema',
-      'activo': isActive ? 1 : 0,
+      'nombre': nombre,
+      'tipo': categoria == CategoriaSabor.agua
+          ? 'Agua'
+          : 'Crema',
+      'stockLitros': stockLitros,
+      'activo': activo ? 1 : 0,
     };
   }
 
-  /// Crear Flavor a partir de un Map de SQLite
+  /// Crea un Flavor a partir de un Map<String, dynamic>
   factory Flavor.fromMap(Map<String, dynamic> map) {
     return Flavor(
       id: map['id'].toString(),
-      name: map['nombre'],
-      category: map['tipo'] == 'Agua'
-          ? FlavorCategory.agua
-          : FlavorCategory.crema,
-      isActive: map['activo'] == 1,
+      nombre: map['nombre'] as String,
+      categoria: map['tipo'] == 'Agua'
+          ? CategoriaSabor.agua
+          : CategoriaSabor.crema,
+      stockLitros:
+          (map['stockLitros'] as num).toDouble(),
+      activo: map['activo'] == 1,
     );
   }
 }

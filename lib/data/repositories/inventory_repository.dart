@@ -7,71 +7,75 @@ class InventoryRepository {
   final DatabaseHelper _databaseHelper = DatabaseHelper.instance;
 
   /// Insertar artículo de inventario
-  Future<int> insert(InventoryItem item) async {
+  Future<int> insertar(InventoryItem articulo) async {
     final Database db = await _databaseHelper.database;
 
     return await db.insert(
       'articuloInventario',
-      item.toMap(),
+      articulo.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
   /// Obtener todos los artículos
-  Future<List<InventoryItem>> getAll() async {
+  Future<List<InventoryItem>> obtenerTodos() async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'articuloInventario',
       orderBy: 'nombre ASC',
     );
 
-    return maps.map((map) => InventoryItem.fromMap(map)).toList();
+    return mapas
+        .map((mapa) => InventoryItem.fromMap(mapa))
+        .toList();
   }
 
-  /// Obtener artículo por ID
-  Future<InventoryItem?> getById(int id) async {
+  /// Buscar artículo por ID
+  Future<InventoryItem?> obtenerPorId(int id) async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'articuloInventario',
       where: 'id = ?',
       whereArgs: [id],
     );
 
-    if (maps.isEmpty) return null;
+    if (mapas.isEmpty) return null;
 
-    return InventoryItem.fromMap(maps.first);
+    return InventoryItem.fromMap(mapas.first);
   }
 
   /// Buscar artículos por nombre
-  Future<List<InventoryItem>> search(String query) async {
+  Future<List<InventoryItem>> buscarPorNombre(String texto) async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'articuloInventario',
       where: 'nombre LIKE ?',
-      whereArgs: ['%$query%'],
+      whereArgs: ['%$texto%'],
       orderBy: 'nombre ASC',
     );
 
-    return maps.map((map) => InventoryItem.fromMap(map)).toList();
+    return mapas
+        .map((mapa) => InventoryItem.fromMap(mapa))
+        .toList();
   }
 
   /// Actualizar artículo
-  Future<int> update(InventoryItem item) async {
+  Future<int> actualizar(InventoryItem articulo) async {
     final Database db = await _databaseHelper.database;
 
     return await db.update(
       'articuloInventario',
-      item.toMap(),
+      articulo.toMap(),
       where: 'id = ?',
-      whereArgs: [item.id],
+      whereArgs: [articulo.id],
     );
   }
 
   /// Eliminar artículo
-  Future<int> delete(int id) async {
+  Future<int> eliminar(int id) async {
     final Database db = await _databaseHelper.database;
 
     return await db.delete(
@@ -81,37 +85,41 @@ class InventoryRepository {
     );
   }
 
-  /// Ajustar stock (puede sumar o restar)
-  Future<int> updateStock({
+  /// Actualizar stock
+  Future<int> actualizarStock({
     required int id,
-    required int newStock,
+    required int nuevoStock,
   }) async {
     final Database db = await _databaseHelper.database;
 
     return await db.update(
       'articuloInventario',
-      {'stock': newStock},
+      {'stock': nuevoStock},
       where: 'id = ?',
       whereArgs: [id],
     );
   }
 
   /// Obtener artículos con stock bajo
-  Future<List<InventoryItem>> getLowStock({int threshold = 10}) async {
+  Future<List<InventoryItem>> obtenerStockBajo({
+    int limite = 10,
+  }) async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'articuloInventario',
       where: 'stock <= ?',
-      whereArgs: [threshold],
+      whereArgs: [limite],
       orderBy: 'stock ASC',
     );
 
-    return maps.map((map) => InventoryItem.fromMap(map)).toList();
+    return mapas
+        .map((mapa) => InventoryItem.fromMap(mapa))
+        .toList();
   }
 
-  /// Contar artículos
-  Future<int> count() async {
+  /// Contar artículos registrados
+  Future<int> contar() async {
     final Database db = await _databaseHelper.database;
 
     final result = await db.rawQuery(

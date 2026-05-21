@@ -1,37 +1,39 @@
 class Production {
   final int? id;
-  final int flavorId;
-  final String date;
-  final double quantityLiters;
-  final double productionCost;
+  final String saborId;
+  final String fecha;
+  final double cantidadLitros;
+  final double costoProduccion;
 
   Production({
     this.id,
-    required this.flavorId,
-    required this.date,
-    required this.quantityLiters,
-    required this.productionCost,
+    required this.saborId,
+    required this.fecha,
+    required this.cantidadLitros,
+    required this.costoProduccion,
   });
 
-  /// Convertir objeto a Map para SQLite
+  /// Convierte el objeto Production a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'saborId': flavorId,
-      'fecha': date,
-      'cantidadLitros': quantityLiters,
-      'costoProduccion': productionCost,
+      'saborId': saborId,
+      'fecha': fecha,
+      'cantidadLitros': cantidadLitros,
+      'costoProduccion': costoProduccion,
     };
   }
 
-  /// Crear objeto desde un Map de SQLite
+  /// Crea un Production a partir de un Map<String, dynamic>
   factory Production.fromMap(Map<String, dynamic> map) {
     return Production(
       id: map['id'] as int?,
-      flavorId: map['saborId'] as int,
-      date: map['fecha'] as String,
-      quantityLiters: (map['cantidadLitros'] as num).toDouble(),
-      productionCost: (map['costoProduccion'] as num).toDouble(),
+      saborId: map['saborId'].toString(),
+      fecha: map['fecha'] as String,
+      cantidadLitros:
+          (map['cantidadLitros'] as num).toDouble(),
+      costoProduccion:
+          (map['costoProduccion'] as num).toDouble(),
     );
   }
 }

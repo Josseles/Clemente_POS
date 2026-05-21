@@ -1,48 +1,51 @@
-enum EmployeeRole { Administrator, Cajero }
+enum RolEmpleado {
+  administrador,
+  cajero,
+}
 
 class Employee {
   final String id;
-  final String name;
-  final String phone;
-  final String address;
-  final String username;
+  final String nombre;
+  final String telefono;
+  final String direccion;
+  final String usuario;
   final String pin;
-  final EmployeeRole role;
+  final RolEmpleado rol;
 
   Employee({
     required this.id,
-    required this.name,
-    required this.phone,
-    required this.address,
-    required this.username,
+    required this.nombre,
+    required this.telefono,
+    required this.direccion,
+    required this.usuario,
     required this.pin,
-    required this.role,
+    required this.rol,
   });
 
-  // Convertir objeto Employee a Map<String, dynamic>
+  /// Convierte un objeto Employee a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'name': name,
-      'phone': phone,
-      'address': address,
-      'username': username,
+      'nombre': nombre,
+      'telefono': telefono,
+      'direccion': direccion,
+      'usuario': usuario,
       'pin': pin,
-      'role': role.name,
+      'rolEmpleado': rol.name,
     };
   }
 
-  // Crear un Employee a partir de un Map<String, dynamic>
+  /// Crea un Employee a partir de un Map<String, dynamic>
   factory Employee.fromMap(Map<String, dynamic> map) {
     return Employee(
-      id: map['id'] as String,
-      name: map['name'] as String,
-      phone: map['phone'] as String? ?? '',
-      address: map['address'] as String? ?? '',
-      username: map['username'] as String,
+      id: map['id'].toString(),
+      nombre: map['nombre'] as String,
+      telefono: map['telefono'] as String? ?? '',
+      direccion: map['direccion'] as String? ?? '',
+      usuario: map['usuario'] as String,
       pin: map['pin'] as String,
-      role: EmployeeRole.values.firstWhere(
-        (e) => e.name == map['role'],
+      rol: RolEmpleado.values.firstWhere(
+        (e) => e.name == map['rolEmpleado'],
       ),
     );
   }

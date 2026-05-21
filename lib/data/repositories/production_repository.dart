@@ -9,84 +9,90 @@ class ProductionRepository {
   final DatabaseHelper _databaseHelper = DatabaseHelper.instance;
 
   /// Insertar producción
-  Future<int> insert(Production production) async {
+  Future<int> insertar(Production produccion) async {
     final Database db = await _databaseHelper.database;
 
     return await db.insert(
       'produccion',
-      production.toMap(),
+      produccion.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
   /// Obtener todas las producciones
-  Future<List<Production>> getAll() async {
+  Future<List<Production>> obtenerTodas() async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'produccion',
       orderBy: 'fecha DESC',
     );
 
-    return maps.map((map) => Production.fromMap(map)).toList();
+    return mapas
+        .map((mapa) => Production.fromMap(mapa))
+        .toList();
   }
 
   /// Obtener producción por ID
-  Future<Production?> getById(int id) async {
+  Future<Production?> obtenerPorId(int id) async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'produccion',
       where: 'id = ?',
       whereArgs: [id],
     );
 
-    if (maps.isEmpty) return null;
+    if (mapas.isEmpty) return null;
 
-    return Production.fromMap(maps.first);
+    return Production.fromMap(mapas.first);
   }
 
   /// Obtener producciones por sabor
-  Future<List<Production>> getByFlavor(int flavorId) async {
+  Future<List<Production>> obtenerPorSabor(int saborId) async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'produccion',
       where: 'saborId = ?',
-      whereArgs: [flavorId],
+      whereArgs: [saborId],
       orderBy: 'fecha DESC',
     );
 
-    return maps.map((map) => Production.fromMap(map)).toList();
+    return mapas
+        .map((mapa) => Production.fromMap(mapa))
+        .toList();
   }
 
   /// Obtener producciones por fecha
-  Future<List<Production>> getByDate(String date) async {
+  Future<List<Production>> obtenerPorFecha(String fecha) async {
     final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'produccion',
       where: 'fecha = ?',
-      whereArgs: [date],
+      whereArgs: [fecha],
     );
 
-    return maps.map((map) => Production.fromMap(map)).toList();
+    return mapas
+        .map((mapa) => Production.fromMap(mapa))
+        .toList();
   }
 
   /// Actualizar producción
-  Future<int> update(Production production) async {
+  Future<int> actualizar(Production produccion) async {
     final Database db = await _databaseHelper.database;
 
     return await db.update(
       'produccion',
-      production.toMap(),
+      produccion.toMap(),
       where: 'id = ?',
-      whereArgs: [production.id],
+      whereArgs: [produccion.id],
     );
   }
 
   /// Eliminar producción
-  Future<int> delete(int id) async {
+  Future<int> eliminar(int id) async {
     final Database db = await _databaseHelper.database;
 
     return await db.delete(
@@ -96,10 +102,10 @@ class ProductionRepository {
     );
   }
 
-  /// Calcular costo total producido en un rango
-  Future<double> getTotalCost({
-    required String startDate,
-    required String endDate,
+  /// Calcular costo total producido en un rango de fechas
+  Future<double> obtenerCostoTotal({
+    required String fechaInicio,
+    required String fechaFin,
   }) async {
     final Database db = await _databaseHelper.database;
 
@@ -109,18 +115,18 @@ class ProductionRepository {
       FROM produccion
       WHERE fecha BETWEEN ? AND ?
       ''',
-      [startDate, endDate],
+      [fechaInicio, fechaFin],
     );
 
-    final value = result.first['total'];
+    final valor = result.first['total'];
 
-    if (value == null) return 0.0;
+    if (valor == null) return 0.0;
 
-    return (value as num).toDouble();
+    return (valor as num).toDouble();
   }
 
-  /// Contar producciones
-  Future<int> count() async {
+  /// Contar producciones registradas
+  Future<int> contar() async {
     final Database db = await _databaseHelper.database;
 
     final result = await db.rawQuery(

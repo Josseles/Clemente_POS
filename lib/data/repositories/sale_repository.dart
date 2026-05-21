@@ -8,14 +8,14 @@ import '../models/sale_detail_flavor.dart';
 class SaleRepository {
   final DatabaseHelper _databaseHelper = DatabaseHelper.instance;
 
-  /// Guarda una venta completa con:
+  /// Guardar una venta completa con:
   /// - venta
   /// - detalleVenta
   /// - detalleVentaSabor
-  Future<void> insert(
-    Sale sale,
-    List<SaleDetail> details,
-    Map<int, List<String>> detailFlavors,
+  Future<void> insertar(
+    Sale venta,
+    List<SaleDetail> detalles,
+    Map<int?, List<String>> saboresPorDetalle,
   ) async {
     final Database db = await _databaseHelper.database;
 
@@ -23,26 +23,27 @@ class SaleRepository {
       // 1. Insertar venta
       await txn.insert(
         'venta',
-        sale.toMap(),
+        venta.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
 
-      // 2. Insertar detalles
-      for (final detail in details) {
-        final int detailId = await txn.insert(
+      // 2. Insertar detalles de venta
+      for (final detalle in detalles) {
+        final int detalleVentaId = await txn.insert(
           'detalleVenta',
-          detail.toMap(),
+          detalle.toMap(),
         );
 
-        // 3. Insertar sabores del detalle
-        final flavors = detailFlavors[detail.id] ?? [];
+        // 3. Insertar sabores asociados al detalle
+        final List<String> sabores =
+            saboresPorDetalle[detalle.id] ?? [];
 
-        for (final flavorId in flavors) {
+        for (final saborId in sabores) {
           await txn.insert(
             'detalleVentaSabor',
             {
-              'detalleVentaId': detailId,
-              'saborId': flavorId,
+              'detalleVentaId': detalleVentaId,
+              'saborId': saborId,
             },
           );
         }
@@ -51,90 +52,97 @@ class SaleRepository {
   }
 
   /// Obtener todas las ventas
-  Future<List<Sale>> getAll() async {
+  Future<List<Sale>> obtenerTodas() async {
     final Database db = await _databaseHelper.database;
 
-    final maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'venta',
       orderBy: 'fechaHora DESC',
     );
 
-    return maps.map((e) => Sale.fromMap(e)).toList();
+    return mapas
+        .map((mapa) => Sale.fromMap(mapa))
+        .toList();
   }
 
   /// Obtener venta por folio
-  Future<Sale?> getByFolio(String folio) async {
+  Future<Sale?> obtenerPorFolio(String folio) async {
     final Database db = await _databaseHelper.database;
 
-    final maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'venta',
       where: 'folio = ?',
       whereArgs: [folio],
     );
 
-    if (maps.isEmpty) return null;
+    if (mapas.isEmpty) return null;
 
-    return Sale.fromMap(maps.first);
+    return Sale.fromMap(mapas.first);
   }
 
   /// Obtener detalles de una venta
-  Future<List<SaleDetail>> getDetails(String folio) async {
+  Future<List<SaleDetail>> obtenerDetalles(
+    String folio,
+  ) async {
     final Database db = await _databaseHelper.database;
 
-    final maps = await db.query(
+    final List<Map<String, dynamic>> mapas = await db.query(
       'detalleVenta',
       where: 'ventaId = ?',
       whereArgs: [folio],
     );
 
-    return maps.map((e) => SaleDetail.fromMap(e)).toList();
-  }
-
-  /// Obtener sabores asociados a un detalle
-  Future<List<SaleDetailFlavor>> getDetailFlavors(
-    int detailId,
-  ) async {
-    final Database db = await _databaseHelper.database;
-
-    final maps = await db.query(
-      'detalleVentaSabor',
-      where: 'detalleVentaId = ?',
-      whereArgs: [detailId],
-    );
-
-    return maps
-        .map((e) => SaleDetailFlavor.fromMap(e))
+    return mapas
+        .map((mapa) => SaleDetail.fromMap(mapa))
         .toList();
   }
 
-  /// Total vendido en una fecha
-  Future<double> getTotalByDate(String date) async {
+  /// Obtener sabores asociados a un detalle de venta
+  Future<List<SaleDetailFlavor>> obtenerSaboresDetalle(
+    int detalleVentaId,
+  ) async {
     final Database db = await _databaseHelper.database;
 
-    final result = await db.rawQuery(
+    final List<Map<String, dynamic>> mapas = await db.query(
+      'detalleVentaSabor',
+      where: 'detalleVentaId = ?',
+      whereArgs: [detalleVentaId],
+    );
+
+    return mapas
+        .map((mapa) => SaleDetailFlavor.fromMap(mapa))
+        .toList();
+  }
+
+  /// Obtener total vendido en una fecha
+  Future<double> obtenerTotalPorFecha(String fecha) async {
+    final Database db = await _databaseHelper.database;
+
+    final List<Map<String, dynamic>> resultado =
+        await db.rawQuery(
       '''
-      SELECT SUM(total) as total
+      SELECT SUM(total) AS total
       FROM venta
       WHERE DATE(fechaHora) = ?
       ''',
-      [date],
+      [fecha],
     );
 
-    final value = result.first['total'];
+    final valor = resultado.first['total'];
 
-    if (value == null) return 0.0;
+    if (valor == null) return 0.0;
 
-    return (value as num).toDouble();
+    return (valor as num).toDouble();
   }
 
-  /// Número de ventas
-  Future<int> count() async {
+  /// Contar ventas registradas
+  Future<int> contar() async {
     final Database db = await _databaseHelper.database;
 
-    final result = await db.rawQuery(
-      'SELECT COUNT(*) as total FROM venta',
+    final resultado = await db.rawQuery(
+      'SELECT COUNT(*) AS total FROM venta',
     );
 
-    return Sqflite.firstIntValue(result) ?? 0;
+    return Sqflite.firstIntValue(resultado) ?? 0;
   }
 }
