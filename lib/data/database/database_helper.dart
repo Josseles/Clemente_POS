@@ -22,7 +22,27 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'clemente_pos.db');
 
-    return await openDatabase(path, version: 1, onCreate: _onCreate);
+    final db = await openDatabase(path, version: 1, onCreate: _onCreate);
+    await _seedData(db);
+    return db;
+  }
+
+  // Seed default admin
+  Future<void> _seedData(Database db) async {
+    final List<Map<String, dynamic>> admins = await db.query(
+      'employee',
+      where: 'nombre = ?',
+      whereArgs: ['Admin'],
+    );
+
+    if (admins.isEmpty) {
+      await db.insert('employee', {
+        'nombre': 'Admin',
+        'telefono': '',
+        'pin': '1',
+        'rolEmpleado': 'Administrador'
+      });
+    }
   }
 
   // Crear tablas
@@ -81,7 +101,7 @@ class DatabaseHelper {
         fecha TEXT NOT NULL,
         hora TEXT NOT NULL,
         montoInicial REAL NOT NULL,
-        FOREIGN KEY (empleadoId) REFERENCES usuario(id)
+        FOREIGN KEY (empleadoId) REFERENCES employee(id)
       )
     ''');
 
@@ -116,7 +136,7 @@ class DatabaseHelper {
         metodoPago TEXT NOT NULL,
         empleadoId TEXT NOT NULL,
         aperturaCajaId TEXT NOT NULL,
-        FOREIGN KEY (empleadoId) REFERENCES usuario(id),
+        FOREIGN KEY (empleadoId) REFERENCES employee(id),
         FOREIGN KEY (aperturaCajaId) REFERENCES aperturaCaja(id)
           CHECK (metodoPago IN ('Efectivo', 'Tarjeta', 'Transferencia'))
       )
