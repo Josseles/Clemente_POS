@@ -69,10 +69,12 @@ class DatabaseHelper {
         id TEXT PRIMARY KEY,
         nombre TEXT NOT NULL,
         precio REAL NOT NULL,
-        iva INTEGER NOT NULL
-          CHECK (iva IN (0, 1)),
-        ieps INTEGER NOT NULL
-          CHECK (ieps IN (0, 1))
+        iva INTEGER NOT NULL DEFAULT 0,
+        ieps INTEGER NOT NULL DEFAULT 0,
+        usaCuchara INTEGER NOT NULL DEFAULT 0,
+        usaVaso INTEGER NOT NULL DEFAULT 0,
+        usaCono INTEGER NOT NULL DEFAULT 0,
+        usaCanasta INTEGER NOT NULL DEFAULT 0
       )
     ''');
 
@@ -179,6 +181,7 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY,
         nombre TEXT NOT NULL,
         stock INTEGER NOT NULL,
+        stockMinimo INTEGER NOT NULL,
         costo REAL NOT NULL
       )
     ''');
@@ -205,7 +208,7 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY,
         nombre TEXT NOT NULL,
         telefono TEXT,
-        producto TEXT
+        marca TEXT
       )
     ''');
 
