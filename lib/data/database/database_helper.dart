@@ -68,13 +68,16 @@ class DatabaseHelper {
       CREATE TABLE producto (
         id TEXT PRIMARY KEY,
         nombre TEXT NOT NULL,
-        precio REAL NOT NULL,
+        precioVenta REAL NOT NULL,
+        costoProduccion REAL NOT NULL,
         iva INTEGER NOT NULL DEFAULT 0,
         ieps INTEGER NOT NULL DEFAULT 0,
+        cantidadBolas INTEGER NOT NULL default 1,
         usaCuchara INTEGER NOT NULL DEFAULT 0,
         usaVaso INTEGER NOT NULL DEFAULT 0,
         usaCono INTEGER NOT NULL DEFAULT 0,
-        usaCanasta INTEGER NOT NULL DEFAULT 0
+        usaCanasta INTEGER NOT NULL DEFAULT 0,
+        usaPretzel INTEGER NOT NULL DEFAULT 0
       )
     ''');
 

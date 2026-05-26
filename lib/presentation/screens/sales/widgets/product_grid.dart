@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:clemente_pos/core/theme/app_colors.dart';
 
-class ProductGrid extends StatelessWidget {
-  final List<String> products;
-  final Function(String) onSelect;
+class ProductGrid<T> extends StatelessWidget {
+  final List<T> items;
+  final String Function(T) labelBuilder;
+  final void Function(T) onSelect;
+  final void Function(T)? onLongPress;
 
   const ProductGrid({
     super.key,
-    required this.products,
+    required this.items,
+    required this.labelBuilder,
     required this.onSelect,
+    this.onLongPress,
   });
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: products.length,
+      itemCount: items.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         crossAxisSpacing: 20,
@@ -22,26 +26,21 @@ class ProductGrid extends StatelessWidget {
         childAspectRatio: 1.5,
       ),
       itemBuilder: (_, index) {
-        final product = products[index];
+        final item = items[index];
 
         return ElevatedButton(
-          onPressed: () => onSelect(product),
-
+          onPressed: () => onSelect(item),
+          onLongPress: onLongPress != null ? () => onLongPress!(item) : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.primary,
-
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-
             elevation: 4,
           ),
-
           child: Text(
-            product,
-
+            labelBuilder(item),
             textAlign: TextAlign.center,
-
             style: const TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,

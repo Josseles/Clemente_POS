@@ -18,7 +18,7 @@ class EmployeeMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppLayout(
-      sidebarContent: const EmployeeSidebarContent(),
+      sidebarContent: EmployeeSidebarContent(employee: employee),
       child: Padding(
         padding: const EdgeInsets.all(40),
         child: Column(

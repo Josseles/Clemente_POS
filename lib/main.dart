@@ -10,7 +10,7 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  await DatabaseHelper.instance.database;
+    await DatabaseHelper.instance.database;
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,

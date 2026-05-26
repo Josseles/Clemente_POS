@@ -7,6 +7,8 @@ import '../presentation/screens/employees/employee_list_screen.dart';
 import '../presentation/screens/employees/employee_register_screen.dart';
 import '../presentation/screens/flavors/activate_flavors_screen.dart';
 import '../presentation/screens/flavors/flavor_register_screen.dart';
+import '../presentation/screens/products/product_register_screen.dart';
+import '../presentation/screens/products/product_edit_screen.dart';
 import '../presentation/screens/sales/sales_products_screen.dart';
 import '../presentation/screens/sales/sales_type_screen.dart';
 import '../presentation/screens/sales/sales_flavors_screen.dart';
@@ -20,6 +22,7 @@ import '../presentation/screens/inventory/inventory_screen.dart';
 
 // Models
 import '../data/models/employee.dart';
+import '../data/models/product.dart';
 
 class AppRoutes {
   // 🔹 Rutas
@@ -31,9 +34,9 @@ class AppRoutes {
   static const flavorRegister = '/flavor-register';
   static const salesProducts = '/sales-products';
   static const salesType = '/sales-type';
-
   static const salesFlavors = '/sales-flavors';
-
+  static const productRegister = '/product-register';
+  static const productEdit = '/product-edit';
   static const productionList = '/production-list';
   static const productionRegister = '/production-register';
   static const reportFilter = '/report-filter';
@@ -47,6 +50,7 @@ class AppRoutes {
     employeeList: (context) => const EmployeeListScreen(),
     employeeRegister: (context) => const EmployeeRegisterScreen(),
     flavorRegister: (context) => const FlavorRegisterScreen(),
+    productRegister: (context) => const AddProductScreen(),
     productionList: (context) => const ProductionListScreen(),
     productionRegister: (context) => const ProductionRegisterScreen(),
     reportFilter: (context) => const ReportFilterScreen(),
@@ -90,6 +94,15 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (_) => SalesProductsScreen(employee: employee),
         );
+
+      case AppRoutes.productEdit:
+        final producto = settings.arguments as Product;
+
+        return MaterialPageRoute(
+          builder: (_) => EditProductScreen(
+          producto: producto,
+        ),
+      );
       default:
         return MaterialPageRoute(
           builder: (_) =>
