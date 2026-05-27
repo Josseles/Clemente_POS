@@ -28,11 +28,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
   bool iva = false;
   bool ieps = false;
 
+  /*
   bool usaCuchara = false;
   bool usaVaso = false;
   bool usaCono = false;
   bool usaCanasta = false;
   bool usaPretzel = false;
+  */
 
   Future<void> guardarProducto() async {
     if (!_formKey.currentState!.validate()) {
@@ -47,11 +49,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
       cantidadBolas: _cantidadBolas,
       iva: iva,
       ieps: ieps,
+      /*
       usaCuchara: usaCuchara,
       usaVaso: usaVaso,
       usaCono: usaCono,
       usaCanasta: usaCanasta,
       usaPretzel: usaPretzel,
+      */
     );
 
     await _productRepository.insertar(producto);
@@ -237,6 +241,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 },
               ),
 
+              /*
               const SizedBox(height: 30),
 
               const Text(
@@ -293,7 +298,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   });
                 },
               ),
-
+              */
+              
               const SizedBox(height: 40),
 
               SizedBox(

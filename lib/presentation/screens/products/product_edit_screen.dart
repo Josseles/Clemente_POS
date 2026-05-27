@@ -36,12 +36,6 @@ class _EditProductScreenState
   late bool iva;
   late bool ieps;
 
-  late bool usaCuchara;
-  late bool usaVaso;
-  late bool usaCono;
-  late bool usaCanasta;
-  late bool usaPretzel;
-
   @override
   void initState() {
     super.initState();
@@ -68,12 +62,6 @@ class _EditProductScreenState
 
     iva = producto.iva;
     ieps = producto.ieps;
-
-    usaCuchara = producto.usaCuchara;
-    usaVaso = producto.usaVaso;
-    usaCono = producto.usaCono;
-    usaCanasta = producto.usaCanasta;
-    usaPretzel = producto.usaPretzel;
   }
 
   Future<void> actualizarProducto() async {
@@ -92,12 +80,7 @@ class _EditProductScreenState
       ),
       cantidadBolas: _cantidadBolas,
       iva: iva,
-      ieps: ieps,
-      usaCuchara: usaCuchara,
-      usaVaso: usaVaso,
-      usaCono: usaCono,
-      usaCanasta: usaCanasta,
-      usaPretzel: usaPretzel,
+      ieps: ieps
     );
 
     await _productRepository.actualizar(
@@ -239,7 +222,7 @@ class _EditProductScreenState
                   });
                 },
               ),
-
+              /*
               const SizedBox(height: 30),
 
               const Text(
@@ -302,6 +285,7 @@ class _EditProductScreenState
                   });
                 },
               ),
+              */
 
               const SizedBox(height: 40),
 

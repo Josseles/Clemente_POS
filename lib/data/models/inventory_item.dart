@@ -1,3 +1,4 @@
+/*
 class InventoryItem {
   final int? id;
   final String nombre;
@@ -35,3 +36,4 @@ class InventoryItem {
     );
   }
 }
+*/

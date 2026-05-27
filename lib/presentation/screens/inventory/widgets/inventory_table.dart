@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import '../../../../../data/models/inventory_item.dart';
 
@@ -119,3 +120,4 @@ class InventoryTable extends StatelessWidget {
     );
   }
 }
+*/

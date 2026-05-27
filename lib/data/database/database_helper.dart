@@ -73,11 +73,6 @@ class DatabaseHelper {
         iva INTEGER NOT NULL DEFAULT 0,
         ieps INTEGER NOT NULL DEFAULT 0,
         cantidadBolas INTEGER NOT NULL default 1,
-        usaCuchara INTEGER NOT NULL DEFAULT 0,
-        usaVaso INTEGER NOT NULL DEFAULT 0,
-        usaCono INTEGER NOT NULL DEFAULT 0,
-        usaCanasta INTEGER NOT NULL DEFAULT 0,
-        usaPretzel INTEGER NOT NULL DEFAULT 0
       )
     ''');
 
@@ -103,9 +98,8 @@ class DatabaseHelper {
       CREATE TABLE aperturaCaja (
         id TEXT PRIMARY KEY,
         empleadoId TEXT NOT NULL,
-        fecha TEXT NOT NULL,
-        hora TEXT NOT NULL,
-        montoInicial REAL NOT NULL,
+        fechaHoraApertura TEXT NOT NULL
+        cerrada INTEGER NOT NULL DEFAULT 0,
         FOREIGN KEY (empleadoId) REFERENCES employee(id)
       )
     ''');
@@ -117,8 +111,7 @@ class DatabaseHelper {
       CREATE TABLE cierreCaja (
         id TEXT PRIMARY KEY,
         aperturaId TEXT NOT NULL,
-        fecha TEXT NOT NULL,
-        hora TEXT NOT NULL,
+        fechaHoraCierre TEXT NOT NULL,
         totalEfectivo REAL NOT NULL,
         totalTarjeta REAL NOT NULL,
         totalContado REAL NOT NULL,
@@ -179,6 +172,7 @@ class DatabaseHelper {
     // ==========================
     // TABLA ARTÍCULO INVENTARIO
     // ==========================
+    /*
     await db.execute('''
       CREATE TABLE articuloInventario (
         id INTEGER PRIMARY KEY,
@@ -188,6 +182,7 @@ class DatabaseHelper {
         costo REAL NOT NULL
       )
     ''');
+    */
 
     // ==========================
     // TABLA PRODUCCIÓN

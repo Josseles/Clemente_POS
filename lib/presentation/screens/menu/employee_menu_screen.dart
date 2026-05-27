@@ -98,7 +98,7 @@ class EmployeeMenuScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: MenuButton(
-                          text: "INVENTARIO",
+                          text: "CORTE DE CAJA",
                           onPressed: () {
                             Navigator.pushNamed(
                               context,

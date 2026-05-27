@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 
 // Core
@@ -81,3 +82,4 @@ class _InventoryScreenState extends State<InventoryScreen> {
     );
   }
 }
+*/

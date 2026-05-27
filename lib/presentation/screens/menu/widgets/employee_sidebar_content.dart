@@ -50,7 +50,7 @@ class EmployeeSidebarContent extends StatelessWidget {
 
         const Spacer(),
 
-        // Podrías agregar botones específicos según el rol aquí
+        /* Podríamos agregar botones específicos según el rol aquí
         if (employee.rol == RolEmpleado.Administrador) ...[
           const Text(
             "MODO ADMIN",
@@ -62,6 +62,7 @@ class EmployeeSidebarContent extends StatelessWidget {
           ),
           const SizedBox(height: 10),
         ],
+        */
 
         ElevatedButton(
           onPressed: () {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Screens
-import '../presentation/screens/login_screen.dart';
+import '../presentation/screens/login/login_screen.dart';
 import '../presentation/screens/menu/employee_menu_screen.dart';
 import '../presentation/screens/employees/employee_list_screen.dart';
 import '../presentation/screens/employees/employee_register_screen.dart';
@@ -18,7 +18,14 @@ import '../presentation/screens/reports/report_filter_screen.dart';
 import '../presentation/screens/purchases/purchase_register_screen.dart';
 import '../presentation/screens/purchases/purchase_list_screen.dart';
 import '../presentation/screens/purchases/supplier_register_screen.dart';
+
+
+
+/*DE LADO
 import '../presentation/screens/inventory/inventory_screen.dart';
+
+
+*/
 
 // Models
 import '../data/models/employee.dart';
@@ -43,7 +50,7 @@ class AppRoutes {
   static const purchaseRegister = '/purchase-register';
   static const purchaseList = '/purchase-list';
   static const supplierRegister = '/supplier-register';
-  static const inventory = '/inventory';
+  //static const inventory = '/inventory';
   // 🔹 Map básico (sin argumentos)
   static Map<String, WidgetBuilder> routes = {
     login: (context) => const LoginScreen(),
@@ -57,7 +64,7 @@ class AppRoutes {
     purchaseRegister: (context) => const PurchaseRegisterScreen(),
     purchaseList: (context) => const PurchaseListScreen(),
     supplierRegister: (context) => const SupplierRegisterScreen(),
-    inventory: (context) => const InventoryScreen(),
+    //inventory: (context) => const InventoryScreen(),
   };
 
   //Manejo de rutas con argumentos
