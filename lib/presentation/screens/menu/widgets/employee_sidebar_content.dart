@@ -71,7 +71,7 @@ class EmployeeSidebarContent extends StatelessWidget {
           onPressed: () async {
             try {
               final apertura = await _cashOpeningRepository
-                  .obtenerAperturaActivaPorEmpleado(employee.id.toString());
+                  .obtenerAperturaActivaPorEmpleado(employee.id!);
 
               if (!context.mounted) return;
 
@@ -89,7 +89,7 @@ class EmployeeSidebarContent extends StatelessWidget {
 
               // NO hubo ventas -> cerrar directo
               if (totalVentas == 0) {
-                await _cashOpeningRepository.cerrarCaja(apertura.id);
+                await _cashOpeningRepository.cerrarCaja(apertura.id!);
 
                 if (!context.mounted) return;
 

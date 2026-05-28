@@ -48,7 +48,7 @@ class FlavorRepository {
   }
 
   /// Buscar sabor por ID
-  Future<Flavor?> obtenerPorId(String id) async {
+  Future<Flavor?> obtenerPorId(int id) async {
     final Database db = await _databaseHelper.database;
 
     final List<Map<String, dynamic>> mapas = await db.query(
@@ -75,7 +75,7 @@ class FlavorRepository {
   }
 
   /// Eliminar sabor
-  Future<int> eliminar(String id) async {
+  Future<int> eliminar(int id) async {
     final Database db = await _databaseHelper.database;
 
     return await db.delete(
@@ -87,7 +87,7 @@ class FlavorRepository {
 
   /// Cambiar estado activo/inactivo
   Future<int> cambiarEstadoActivo({
-    required String id,
+    required int id,
     required bool activo,
   }) async {
     final Database db = await _databaseHelper.database;

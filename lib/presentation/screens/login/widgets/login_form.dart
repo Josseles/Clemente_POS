@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../../data/models/employee.dart';
 import '../../../../data/models/cash_opening.dart';
@@ -84,7 +83,7 @@ class _LoginFormState
       final cashOpeningActive =
           await _cashOpeningRepository
               .obtenerAperturaActivaPorEmpleado(
-        employee.id.toString(),
+        employee.id!,
       );
 
       late CashOpening apertura;
@@ -93,9 +92,9 @@ class _LoginFormState
       if (cashOpeningActive == null) {
         final newCashOpening =
             CashOpening(
-          id: const Uuid().v4(),
+          id: null,
 
-          empleadoId: employee.id.toString(),
+          empleadoId: employee.id!,
 
           fechaHoraApertura:
               DateTime.now()
@@ -105,7 +104,9 @@ class _LoginFormState
         await _cashOpeningRepository
             .insertar(newCashOpening);
 
-        apertura = newCashOpening;
+        // Volver a obtener la apertura para tener el ID generado
+        apertura = (await _cashOpeningRepository
+            .obtenerAperturaActivaPorEmpleado(employee.id!))!;
       } else {
         apertura = cashOpeningActive;
       }

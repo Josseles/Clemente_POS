@@ -23,8 +23,6 @@ class _EditProductScreenState
   final ProductRepository _productRepository =
       ProductRepository();
 
-  late TextEditingController _idController;
-
   late TextEditingController _nombreController;
 
   late TextEditingController _precioController;
@@ -38,15 +36,32 @@ class _EditProductScreenState
 
   late bool usaVasoCono;
 
+  double precioSinImpuestos = 0;
+
+  static const double ivaImpuesto = 0.16;
+  static const double iepsImpuesto = 0.08;
+
+  double _calcularPrecioSinImpuestos() {
+    final precio = double.tryParse(_precioController.text) ?? 0;
+
+    double factor = 1.0;
+
+    if (ieps) {
+      factor *= (1 + iepsImpuesto);
+    }
+
+    if (iva) {
+      factor *= (1 + ivaImpuesto);
+    }
+
+    return precio / factor;
+  }
+
   @override
   void initState() {
     super.initState();
 
     final producto = widget.producto;
-
-    _idController = TextEditingController(
-      text: producto.id,
-    );
 
     _nombreController = TextEditingController(
       text: producto.nombre,
@@ -65,6 +80,8 @@ class _EditProductScreenState
     iva = producto.iva;
     ieps = producto.ieps;
     usaVasoCono = producto.usaVasoCono;
+
+    precioSinImpuestos = _calcularPrecioSinImpuestos();
   }
 
   Future<void> actualizarProducto() async {
@@ -73,7 +90,7 @@ class _EditProductScreenState
     }
 
     final productoActualizado = Product(
-      id: _idController.text.trim(),
+      id: widget.producto.id,
       nombre: _nombreController.text.trim(),
       precioVenta: double.parse(
         _precioController.text.trim(),
@@ -135,20 +152,6 @@ class _EditProductScreenState
 
           child: ListView(
             children: [
-              // ID
-              TextFormField(
-                controller: _idController,
-
-                enabled: false,
-
-                decoration: const InputDecoration(
-                  labelText: 'ID',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
               // Nombre
               TextFormField(
                 controller: _nombreController,
@@ -173,6 +176,12 @@ class _EditProductScreenState
               // Precio
               TextFormField(
                 controller: _precioController,
+
+                onChanged: (_) {
+                  setState(() {
+                    precioSinImpuestos = _calcularPrecioSinImpuestos();
+                  });
+                },
 
                 keyboardType:
                     TextInputType.number,
@@ -207,12 +216,26 @@ class _EditProductScreenState
                 ),
               ),
 
+              const SizedBox(height: 8),
+
+              Align(
+                alignment: Alignment.centerLeft,
+
+                child: Text(
+                  'Precio sin impuestos: '
+                  '\$${precioSinImpuestos.toStringAsFixed(2)}',
+
+                  style: const TextStyle(color: Colors.grey, fontSize: 14),
+                ),
+              ),
+
               buildCheckbox(
                 titulo: 'IVA',
                 valor: iva,
                 onChanged: (value) {
                   setState(() {
                     iva = value ?? false;
+                    precioSinImpuestos = _calcularPrecioSinImpuestos();
                   });
                 },
               ),
@@ -223,6 +246,7 @@ class _EditProductScreenState
                 onChanged: (value) {
                   setState(() {
                     ieps = value ?? false;
+                    precioSinImpuestos = _calcularPrecioSinImpuestos();
                   });
                 },
               ),

@@ -31,7 +31,7 @@ class _FlavorRegisterScreenState extends State<FlavorRegisterScreen> {
     }
 
     final newFlavor = Flavor(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      id: null,
       nombre: nombre,
       categoria: _selectedCategoria,
       stockLitros: 0,

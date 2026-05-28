@@ -1,20 +1,15 @@
 class CashClosing {
-  final String id;
-
-  final String aperturaId;
-
+  final int? id;
+  final int aperturaId;
   final String fechaHoraCierre;
-
   final double totalEfectivo;
   final double totalTarjeta;
-
   final double totalContado;
   final double totalCalculado;
-
   final double diferencia;
 
   CashClosing({
-    required this.id,
+    this.id,
     required this.aperturaId,
     required this.fechaHoraCierre,
     required this.totalEfectivo,
@@ -26,7 +21,7 @@ class CashClosing {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      if (id != null) 'id': id,
       'aperturaId': aperturaId,
       'fechaHoraCierre': fechaHoraCierre,
       'totalEfectivo': totalEfectivo,
@@ -37,36 +32,16 @@ class CashClosing {
     };
   }
 
-  factory CashClosing.fromMap(
-    Map<String, dynamic> map,
-  ) {
+  factory CashClosing.fromMap(Map<String, dynamic> map) {
     return CashClosing(
-      id: map['id'].toString(),
-
-      aperturaId:
-          map['aperturaId'].toString(),
-
+      id: map['id'] as int?,
+      aperturaId: map['aperturaId'] as int,
       fechaHoraCierre: map['fechaHoraCierre'] as String,
-
-      totalEfectivo:
-          (map['totalEfectivo'] as num)
-              .toDouble(),
-
-      totalTarjeta:
-          (map['totalTarjeta'] as num)
-              .toDouble(),
-
-      totalContado:
-          (map['totalContado'] as num)
-              .toDouble(),
-
-      totalCalculado:
-          (map['totalCalculado'] as num)
-              .toDouble(),
-
-      diferencia:
-          (map['diferencia'] as num)
-              .toDouble(),
+      totalEfectivo: (map['totalEfectivo'] as num).toDouble(),
+      totalTarjeta: (map['totalTarjeta'] as num).toDouble(),
+      totalContado: (map['totalContado'] as num).toDouble(),
+      totalCalculado: (map['totalCalculado'] as num).toDouble(),
+      diferencia: (map['diferencia'] as num).toDouble(),
     );
   }
 }

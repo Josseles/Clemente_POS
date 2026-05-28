@@ -1,7 +1,7 @@
 class SaleDetailFlavor {
   final int? id;
   final int detalleVentaId;
-  final String saborId;
+  final int saborId;
 
   SaleDetailFlavor({
     this.id,
@@ -12,7 +12,7 @@ class SaleDetailFlavor {
   /// Convierte el objeto SaleDetailFlavor a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      if (id != null) 'id': id,
       'detalleVentaId': detalleVentaId,
       'saborId': saborId,
     };
@@ -23,7 +23,7 @@ class SaleDetailFlavor {
     return SaleDetailFlavor(
       id: map['id'] as int?,
       detalleVentaId: map['detalleVentaId'] as int,
-      saborId: map['saborId'].toString(),
+      saborId: map['saborId'] as int,
     );
   }
 }

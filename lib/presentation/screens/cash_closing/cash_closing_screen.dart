@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../routes/app_routes.dart';
 
@@ -64,7 +63,7 @@ class _CashClosingScreenState
     try {
 
       final ventas =
-          await _saleRepository.obtenerTodas();
+          await _saleRepository.obtenerPorApertura(widget.apertura.id!);
 
       double efectivo = 0;
       double tarjeta = 0;
@@ -76,7 +75,7 @@ class _CashClosingScreenState
 
           efectivo += venta.total;
 
-        } else {
+        } else if (venta.metodoPago == 'Tarjeta' || venta.metodoPago == 'Transferencia') {
 
           tarjeta += venta.total;
         }
@@ -134,10 +133,10 @@ class _CashClosingScreenState
     try {
 
       final cierre = CashClosing(
-        id: const Uuid().v4(),
+        id: null,
 
         aperturaId:
-            widget.apertura.id,
+            widget.apertura.id!,
 
         fechaHoraCierre:
             DateTime.now()
@@ -164,7 +163,7 @@ class _CashClosingScreenState
 
       await _cashOpeningRepository
           .cerrarCaja(
-        widget.apertura.id,
+        widget.apertura.id!,
       );
 
       if (!mounted) return;

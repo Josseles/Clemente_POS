@@ -1,5 +1,5 @@
 class Product {
-  final String id;
+  final int? id;
   final String nombre;
   final double precioVenta;
   final double costoProduccion;
@@ -9,7 +9,7 @@ class Product {
   final bool usaVasoCono;
 
   Product({
-    required this.id,
+    this.id,
     required this.nombre,
     required this.precioVenta,
     required this.costoProduccion,
@@ -22,7 +22,7 @@ class Product {
   /// Convierte el objeto Product a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      if (id != null) 'id': id,
       'nombre': nombre,
       'precioVenta': precioVenta,
       'costoProduccion': costoProduccion,
@@ -36,7 +36,7 @@ class Product {
   /// Crea un Product a partir de un Map<String, dynamic>
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
-      id: map['id'].toString(),
+      id: map['id'] as int?,
       nombre: map['nombre'] as String,
       precioVenta: (map['precioVenta'] as num).toDouble(),
       costoProduccion: (map['costoProduccion'] as num).toDouble(),

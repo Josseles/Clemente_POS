@@ -25,7 +25,7 @@ class CashClosingRepository {
   /// Obtener cierre por apertura
   Future<CashClosing?>
   obtenerPorApertura(
-    String aperturaId,
+    int aperturaId,
   ) async {
     final Database db =
         await _databaseHelper.database;
@@ -48,7 +48,7 @@ class CashClosingRepository {
 
   /// Verificar si una apertura ya fue cerrada
   Future<bool> estaCerrada(
-    String aperturaId,
+    int aperturaId,
   ) async {
     final cierre =
         await obtenerPorApertura(
@@ -82,7 +82,7 @@ class CashClosingRepository {
 
   /// Obtener cierre por ID
   Future<CashClosing?>
-  obtenerPorId(String id) async {
+  obtenerPorId(int id) async {
     final Database db =
         await _databaseHelper.database;
 

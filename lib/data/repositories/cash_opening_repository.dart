@@ -19,7 +19,7 @@ class CashOpeningRepository {
 
   /// Obtener apertura activa de un empleado
   Future<CashOpening?> obtenerAperturaActivaPorEmpleado(
-    String empleadoId,
+    int empleadoId,
   ) async {
     final Database db = await _databaseHelper.database;
 
@@ -28,10 +28,7 @@ class CashOpeningRepository {
       SELECT *
       FROM aperturaCaja
       WHERE empleadoId = ?
-      AND id NOT IN (
-        SELECT aperturaId
-        FROM cierreCaja
-      )
+      AND cerrada = 0
       LIMIT 1
       ''',
       [empleadoId],
@@ -45,7 +42,7 @@ class CashOpeningRepository {
   }
 
   /// Verificar si tiene caja activa
-  Future<bool> tieneCajaActiva(String empleadoId) async {
+  Future<bool> tieneCajaActiva(int empleadoId) async {
     final apertura = await obtenerAperturaActivaPorEmpleado(empleadoId);
 
     return apertura != null;
@@ -64,7 +61,7 @@ class CashOpeningRepository {
   }
 
   /// Obtener apertura por ID
-  Future<CashOpening?> obtenerPorId(String id) async {
+  Future<CashOpening?> obtenerPorId(int id) async {
     final Database db = await _databaseHelper.database;
 
     final maps = await db.query(
@@ -82,7 +79,7 @@ class CashOpeningRepository {
   }
 
   /// Marcar apertura como cerrada
-  Future<int> cerrarCaja(String aperturaId) async {
+  Future<int> cerrarCaja(int aperturaId) async {
     final Database db = await _databaseHelper.database;
 
     return await db.update(

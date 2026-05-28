@@ -15,28 +15,35 @@ class SaleRepository {
   Future<void> insertar(
     Sale venta,
     List<SaleDetail> detalles,
-    Map<int?, List<String>> saboresPorDetalle,
+    Map<int, List<int>> saboresPorDetalle,
   ) async {
     final Database db = await _databaseHelper.database;
 
     await db.transaction((txn) async {
       // 1. Insertar venta
-      await txn.insert(
+      final int generatedFolio = await txn.insert(
         'venta',
         venta.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
 
       // 2. Insertar detalles de venta
-      for (final detalle in detalles) {
+      for (int i = 0; i < detalles.length; i++) {
+        final detalle = detalles[i];
+        
+        // Crear un nuevo mapa con el ventaId correcto
+        final detalleMap = detalle.toMap();
+        detalleMap['ventaId'] = generatedFolio;
+        if (detalleMap.containsKey('id')) detalleMap.remove('id');
+
         final int detalleVentaId = await txn.insert(
           'detalleVenta',
-          detalle.toMap(),
+          detalleMap,
         );
 
         // 3. Insertar sabores asociados al detalle
-        final List<String> sabores =
-            saboresPorDetalle[detalle.id] ?? [];
+        // Usamos el índice i para referenciar los sabores en el mapa
+        final List<int> sabores = saboresPorDetalle[i] ?? [];
 
         for (final saborId in sabores) {
           await txn.insert(
@@ -57,7 +64,7 @@ class SaleRepository {
 
     final List<Map<String, dynamic>> mapas = await db.query(
       'venta',
-      orderBy: 'fechaHora DESC',
+      orderBy: 'folio DESC',
     );
 
     return mapas
@@ -66,7 +73,7 @@ class SaleRepository {
   }
 
   /// Obtener venta por folio
-  Future<Sale?> obtenerPorFolio(String folio) async {
+  Future<Sale?> obtenerPorFolio(int folio) async {
     final Database db = await _databaseHelper.database;
 
     final List<Map<String, dynamic>> mapas = await db.query(
@@ -82,7 +89,7 @@ class SaleRepository {
 
   /// Obtener detalles de una venta
   Future<List<SaleDetail>> obtenerDetalles(
-    String folio,
+    int folio,
   ) async {
     final Database db = await _databaseHelper.database;
 
@@ -95,6 +102,19 @@ class SaleRepository {
     return mapas
         .map((mapa) => SaleDetail.fromMap(mapa))
         .toList();
+  }
+
+  /// Obtener ventas por apertura de caja
+  Future<List<Sale>> obtenerPorApertura(int aperturaId) async {
+    final Database db = await _databaseHelper.database;
+
+    final List<Map<String, dynamic>> mapas = await db.query(
+      'venta',
+      where: 'aperturaCajaId = ?',
+      whereArgs: [aperturaId],
+    );
+
+    return mapas.map((mapa) => Sale.fromMap(mapa)).toList();
   }
 
   /// Obtener sabores asociados a un detalle de venta
@@ -154,7 +174,7 @@ class SaleRepository {
       '''
       SELECT SUM(total) AS total
       FROM venta
-      WHERE metodoPago = 'efectivo'
+      WHERE metodoPago = 'Efectivo'
       ''',
     );
 
@@ -173,7 +193,7 @@ class SaleRepository {
       '''
       SELECT SUM(total) AS total
       FROM venta
-      WHERE metodoPago = 'tarjeta'
+      WHERE metodoPago = 'Tarjeta'
       ''',
     );
 

@@ -4,14 +4,14 @@ enum CategoriaSabor {
 }
 
 class Flavor {
-  final String id;
+  final int? id;
   final String nombre;
   final CategoriaSabor categoria;
   final double stockLitros;
   final bool activo;
 
   Flavor({
-    required this.id,
+    this.id,
     required this.nombre,
     required this.categoria,
     required this.stockLitros,
@@ -19,7 +19,7 @@ class Flavor {
   });
 
   Flavor copyWith({
-    String? id,
+    int? id,
     String? nombre,
     CategoriaSabor? categoria,
     double? stockLitros,
@@ -37,7 +37,7 @@ class Flavor {
   /// Convierte el objeto Flavor a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      if (id != null) 'id': id,
       'nombre': nombre,
       'tipo': categoria == CategoriaSabor.agua
           ? 'Agua'
@@ -50,7 +50,7 @@ class Flavor {
   /// Crea un Flavor a partir de un Map<String, dynamic>
   factory Flavor.fromMap(Map<String, dynamic> map) {
     return Flavor(
-      id: map['id'].toString(),
+      id: map['id'] as int?,
       nombre: map['nombre'] as String,
       categoria: map['tipo'] == 'Agua'
           ? CategoriaSabor.agua

@@ -32,7 +32,7 @@ class ProductRepository {
   }
 
   /// Buscar producto por ID
-  Future<Product?> obtenerPorId(String id) async {
+  Future<Product?> obtenerPorId(int id) async {
     final Database db = await _databaseHelper.database;
 
     final List<Map<String, dynamic>> mapas = await db.query(
@@ -59,7 +59,7 @@ class ProductRepository {
   }
 
   /// Eliminar producto
-  Future<int> eliminar(String id) async {
+  Future<int> eliminar(int id) async {
     final Database db = await _databaseHelper.database;
 
     return await db.delete(

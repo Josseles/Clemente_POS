@@ -1,6 +1,6 @@
 class Production {
   final int? id;
-  final String saborId;
+  final int saborId;
   final String fecha;
   final double cantidadLitros;
   final double costoProduccion;
@@ -16,7 +16,7 @@ class Production {
   /// Convierte el objeto Production a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      if (id != null) 'id': id,
       'saborId': saborId,
       'fecha': fecha,
       'cantidadLitros': cantidadLitros,
@@ -28,7 +28,7 @@ class Production {
   factory Production.fromMap(Map<String, dynamic> map) {
     return Production(
       id: map['id'] as int?,
-      saborId: map['saborId'].toString(),
+      saborId: map['saborId'] as int,
       fecha: map['fecha'] as String,
       cantidadLitros:
           (map['cantidadLitros'] as num).toDouble(),
