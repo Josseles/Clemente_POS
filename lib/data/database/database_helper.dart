@@ -72,7 +72,8 @@ class DatabaseHelper {
         costoProduccion REAL NOT NULL,
         iva INTEGER NOT NULL DEFAULT 0,
         ieps INTEGER NOT NULL DEFAULT 0,
-        cantidadBolas INTEGER NOT NULL default 1,
+        usaVasoCono INTEGER NOT NULL DEFAULT 0,
+        cantidadBolas INTEGER NOT NULL DEFAULT 1
       )
     ''');
 
@@ -98,7 +99,7 @@ class DatabaseHelper {
       CREATE TABLE aperturaCaja (
         id TEXT PRIMARY KEY,
         empleadoId TEXT NOT NULL,
-        fechaHoraApertura TEXT NOT NULL
+        fechaHoraApertura TEXT NOT NULL,
         cerrada INTEGER NOT NULL DEFAULT 0,
         FOREIGN KEY (empleadoId) REFERENCES employee(id)
       )

@@ -4,34 +4,26 @@ import '../database/database_helper.dart';
 import '../models/cash_opening.dart';
 
 class CashOpeningRepository {
-  final DatabaseHelper _databaseHelper =
-      DatabaseHelper.instance;
+  final DatabaseHelper _databaseHelper = DatabaseHelper.instance;
 
   /// Insertar apertura de caja
-  Future<int> insertar(
-    CashOpening apertura,
-  ) async {
-    final Database db =
-        await _databaseHelper.database;
+  Future<int> insertar(CashOpening apertura) async {
+    final Database db = await _databaseHelper.database;
 
     return await db.insert(
       'aperturaCaja',
       apertura.toMap(),
-      conflictAlgorithm:
-          ConflictAlgorithm.replace,
+      conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
   /// Obtener apertura activa de un empleado
-  Future<CashOpening?>
-  obtenerAperturaActivaPorEmpleado(
+  Future<CashOpening?> obtenerAperturaActivaPorEmpleado(
     String empleadoId,
   ) async {
-    final Database db =
-        await _databaseHelper.database;
+    final Database db = await _databaseHelper.database;
 
-    final List<Map<String, dynamic>>
-    maps = await db.rawQuery(
+    final List<Map<String, dynamic>> maps = await db.rawQuery(
       '''
       SELECT *
       FROM aperturaCaja
@@ -49,50 +41,31 @@ class CashOpeningRepository {
       return null;
     }
 
-    return CashOpening.fromMap(
-      maps.first,
-    );
+    return CashOpening.fromMap(maps.first);
   }
 
   /// Verificar si tiene caja activa
-  Future<bool> tieneCajaActiva(
-    String empleadoId,
-  ) async {
-    final apertura =
-        await obtenerAperturaActivaPorEmpleado(
-      empleadoId,
-    );
+  Future<bool> tieneCajaActiva(String empleadoId) async {
+    final apertura = await obtenerAperturaActivaPorEmpleado(empleadoId);
 
     return apertura != null;
   }
 
   /// Obtener todas las aperturas
-  Future<List<CashOpening>>
-  obtenerTodas() async {
-    final Database db =
-        await _databaseHelper.database;
+  Future<List<CashOpening>> obtenerTodas() async {
+    final Database db = await _databaseHelper.database;
 
     final maps = await db.query(
       'aperturaCaja',
-      orderBy:
-          'fechaHoraApertura DESC',
+      orderBy: 'fechaHoraApertura DESC',
     );
 
-    return maps
-        .map(
-          (map) =>
-              CashOpening.fromMap(
-                map,
-              ),
-        )
-        .toList();
+    return maps.map((map) => CashOpening.fromMap(map)).toList();
   }
 
   /// Obtener apertura por ID
-  Future<CashOpening?>
-  obtenerPorId(String id) async {
-    final Database db =
-        await _databaseHelper.database;
+  Future<CashOpening?> obtenerPorId(String id) async {
+    final Database db = await _databaseHelper.database;
 
     final maps = await db.query(
       'aperturaCaja',
@@ -105,8 +78,21 @@ class CashOpeningRepository {
       return null;
     }
 
-    return CashOpening.fromMap(
-      maps.first,
+    return CashOpening.fromMap(maps.first);
+  }
+
+  /// Marcar apertura como cerrada
+  Future<int> cerrarCaja(String aperturaId) async {
+    final Database db = await _databaseHelper.database;
+
+    return await db.update(
+      'aperturaCaja',
+
+      {'cerrada': 1},
+
+      where: 'id = ?',
+
+      whereArgs: [aperturaId],
     );
   }
 }

@@ -28,6 +28,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   bool iva = false;
   bool ieps = false;
 
+  bool usaVasoCono = false;
   /*
   bool usaCuchara = false;
   bool usaVaso = false;
@@ -49,6 +50,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       cantidadBolas: _cantidadBolas,
       iva: iva,
       ieps: ieps,
+      usaVasoCono: usaVasoCono,
       /*
       usaCuchara: usaCuchara,
       usaVaso: usaVaso,
@@ -237,6 +239,23 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 onChanged: (value) {
                   setState(() {
                     ieps = value ?? false;
+                  });
+                },
+              ),
+
+              const SizedBox(height: 30),
+
+              const Text(
+                'Personalización',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+
+              buildCheckbox(
+                titulo: '¿Usa vaso o cono?',
+                valor: usaVasoCono,
+                onChanged: (value) {
+                  setState(() {
+                    usaVasoCono = value ?? false;
                   });
                 },
               ),

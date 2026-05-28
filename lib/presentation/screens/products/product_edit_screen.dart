@@ -36,6 +36,8 @@ class _EditProductScreenState
   late bool iva;
   late bool ieps;
 
+  late bool usaVasoCono;
+
   @override
   void initState() {
     super.initState();
@@ -62,6 +64,7 @@ class _EditProductScreenState
 
     iva = producto.iva;
     ieps = producto.ieps;
+    usaVasoCono = producto.usaVasoCono;
   }
 
   Future<void> actualizarProducto() async {
@@ -80,7 +83,8 @@ class _EditProductScreenState
       ),
       cantidadBolas: _cantidadBolas,
       iva: iva,
-      ieps: ieps
+      ieps: ieps,
+      usaVasoCono: usaVasoCono,
     );
 
     await _productRepository.actualizar(
@@ -219,6 +223,26 @@ class _EditProductScreenState
                 onChanged: (value) {
                   setState(() {
                     ieps = value ?? false;
+                  });
+                },
+              ),
+
+              const SizedBox(height: 30),
+
+              const Text(
+                'Personalización',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              buildCheckbox(
+                titulo: '¿Usa vaso o cono?',
+                valor: usaVasoCono,
+                onChanged: (value) {
+                  setState(() {
+                    usaVasoCono = value ?? false;
                   });
                 },
               ),

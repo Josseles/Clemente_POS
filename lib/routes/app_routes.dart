@@ -1,25 +1,43 @@
 import 'package:flutter/material.dart';
 
 // Screens
+//LOGIN
 import '../presentation/screens/login/login_screen.dart';
-import '../presentation/screens/menu/employee_menu_screen.dart';
+
+//MENU
+import '../presentation/screens/menu/menu_screen.dart';
+
+//USUARIOS
 import '../presentation/screens/employees/employee_list_screen.dart';
 import '../presentation/screens/employees/employee_register_screen.dart';
+
+//FLAVORS
 import '../presentation/screens/flavors/activate_flavors_screen.dart';
 import '../presentation/screens/flavors/flavor_register_screen.dart';
+
+//PRODUCTOS
 import '../presentation/screens/products/product_register_screen.dart';
 import '../presentation/screens/products/product_edit_screen.dart';
+
+//VENTAS
 import '../presentation/screens/sales/sales_products_screen.dart';
 import '../presentation/screens/sales/sales_type_screen.dart';
 import '../presentation/screens/sales/sales_flavors_screen.dart';
+
+//PRODUCTIONS
 import '../presentation/screens/productions/production_list_screen.dart';
 import '../presentation/screens/productions/production_register_screen.dart';
+
+//REPORTES
 import '../presentation/screens/reports/report_filter_screen.dart';
+
+//COMPRAS
 import '../presentation/screens/purchases/purchase_register_screen.dart';
 import '../presentation/screens/purchases/purchase_list_screen.dart';
 import '../presentation/screens/purchases/supplier_register_screen.dart';
 
-
+//CIERRE DE CAJA
+import '../presentation/screens/cash_closing/cash_closing_screen.dart';
 
 /*DE LADO
 import '../presentation/screens/inventory/inventory_screen.dart';
@@ -30,6 +48,7 @@ import '../presentation/screens/inventory/inventory_screen.dart';
 // Models
 import '../data/models/employee.dart';
 import '../data/models/product.dart';
+import '../data/models/cash_opening.dart';
 
 class AppRoutes {
   // 🔹 Rutas
@@ -50,6 +69,7 @@ class AppRoutes {
   static const purchaseRegister = '/purchase-register';
   static const purchaseList = '/purchase-list';
   static const supplierRegister = '/supplier-register';
+  static const cashClosing = '/cash-closing';
   //static const inventory = '/inventory';
   // 🔹 Map básico (sin argumentos)
   static Map<String, WidgetBuilder> routes = {
@@ -71,11 +91,16 @@ class AppRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case employeeMenu:
-        final employee = settings.arguments as Employee;
-        return MaterialPageRoute(
-          builder: (_) => EmployeeMenuScreen(employee: employee),
-        );
+        final args = settings.arguments as Map<String, dynamic>;
 
+        final employee = args['employee'] as Employee;
+
+        final apertura = args['apertura'] as CashOpening?;
+
+        return MaterialPageRoute(
+          builder: (_) =>
+              MenuScreen(employee: employee, apertura: apertura),
+        );
       case activateFlavors:
         final employee = settings.arguments as Employee;
         return MaterialPageRoute(
@@ -106,10 +131,15 @@ class AppRoutes {
         final producto = settings.arguments as Product;
 
         return MaterialPageRoute(
-          builder: (_) => EditProductScreen(
-          producto: producto,
-        ),
-      );
+          builder: (_) => EditProductScreen(producto: producto),
+        );
+
+      case AppRoutes.cashClosing:
+        final apertura = settings.arguments as CashOpening;
+
+        return MaterialPageRoute(
+          builder: (_) => CashClosingScreen(apertura: apertura),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) =>

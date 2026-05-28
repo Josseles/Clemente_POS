@@ -7,21 +7,24 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(
-        children: const [
-          // Formulario
-          Expanded(
-            flex: 2,
-            child: LoginForm(),
-          ),
-
-          // Panel derecho (logo)
-          Expanded(
-            flex: 1,
-            child: LogoPanel(),
-          ),
-        ],
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: Row(
+          children: const [
+            // Formulario
+            Expanded(
+              flex: 2,
+              child: LoginForm(),
+            ),
+  
+            // Panel derecho (logo)
+            Expanded(
+              flex: 1,
+              child: LogoPanel(),
+            ),
+          ],
+        ),
       ),
     );
   }

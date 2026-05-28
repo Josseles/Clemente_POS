@@ -6,6 +6,7 @@ class Product {
   final bool iva;
   final bool ieps;
   final int cantidadBolas;
+  final bool usaVasoCono;
 
   Product({
     required this.id,
@@ -15,6 +16,7 @@ class Product {
     required this.iva,
     required this.ieps,
     required this.cantidadBolas,
+    this.usaVasoCono = false,
   });
 
   /// Convierte el objeto Product a Map<String, dynamic>
@@ -27,6 +29,7 @@ class Product {
       'iva': iva ? 1 : 0,
       'ieps': ieps ? 1 : 0,
       'cantidadBolas': cantidadBolas,
+      'usaVasoCono': usaVasoCono ? 1 : 0,
     };
   }
 
@@ -40,6 +43,7 @@ class Product {
       iva: map['iva'] == 1,
       ieps: map['ieps'] == 1,
       cantidadBolas: map['cantidadBolas'] as int,
+      usaVasoCono: map['usaVasoCono'] == 1,
     );
   }
 }

@@ -87,6 +87,8 @@ class _LoginFormState
         employee.id.toString(),
       );
 
+      late CashOpening apertura;
+
       // Si NO tiene apertura activa -> crearla
       if (cashOpeningActive == null) {
         final newCashOpening =
@@ -102,6 +104,10 @@ class _LoginFormState
 
         await _cashOpeningRepository
             .insertar(newCashOpening);
+
+        apertura = newCashOpening;
+      } else {
+        apertura = cashOpeningActive;
       }
 
       if (!mounted) return;
@@ -109,7 +115,10 @@ class _LoginFormState
       Navigator.pushReplacementNamed(
         context,
         AppRoutes.employeeMenu,
-        arguments: employee,
+        arguments: {
+          'employee': employee,
+          'apertura': apertura,
+        },
       );
     } catch (e) {
       if (!mounted) return;

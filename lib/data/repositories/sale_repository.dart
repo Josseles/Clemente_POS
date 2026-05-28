@@ -145,4 +145,60 @@ class SaleRepository {
 
     return Sqflite.firstIntValue(resultado) ?? 0;
   }
+
+    /// Total vendido en EFECTIVO
+  Future<double> obtenerTotalEfectivo() async {
+    final Database db = await _databaseHelper.database;
+
+    final resultado = await db.rawQuery(
+      '''
+      SELECT SUM(total) AS total
+      FROM venta
+      WHERE metodoPago = 'efectivo'
+      ''',
+    );
+
+    final valor = resultado.first['total'];
+
+    if (valor == null) return 0.0;
+
+    return (valor as num).toDouble();
+  }
+
+  /// Total vendido en TARJETA
+  Future<double> obtenerTotalTarjeta() async {
+    final Database db = await _databaseHelper.database;
+
+    final resultado = await db.rawQuery(
+      '''
+      SELECT SUM(total) AS total
+      FROM venta
+      WHERE metodoPago = 'tarjeta'
+      ''',
+    );
+
+    final valor = resultado.first['total'];
+
+    if (valor == null) return 0.0;
+
+    return (valor as num).toDouble();
+  }
+
+  /// Total general vendido
+  Future<double> obtenerTotalGeneral() async {
+    final Database db = await _databaseHelper.database;
+
+    final resultado = await db.rawQuery(
+      '''
+      SELECT SUM(total) AS total
+      FROM venta
+      ''',
+    );
+
+    final valor = resultado.first['total'];
+
+    if (valor == null) return 0.0;
+
+    return (valor as num).toDouble();
+  }
 }

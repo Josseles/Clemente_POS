@@ -7,7 +7,7 @@ class CashClosingRepository {
   final DatabaseHelper _databaseHelper =
       DatabaseHelper.instance;
 
-  /// Insertar cierre
+  /// Insertar cierre de caja
   Future<int> insertar(
     CashClosing cierre,
   ) async {
@@ -32,16 +32,30 @@ class CashClosingRepository {
 
     final maps = await db.query(
       'cierreCaja',
-      where: 'aperturaCajaId = ?',
+      where: 'aperturaId = ?',
       whereArgs: [aperturaId],
       limit: 1,
     );
 
-    if (maps.isEmpty) return null;
+    if (maps.isEmpty) {
+      return null;
+    }
 
     return CashClosing.fromMap(
       maps.first,
     );
+  }
+
+  /// Verificar si una apertura ya fue cerrada
+  Future<bool> estaCerrada(
+    String aperturaId,
+  ) async {
+    final cierre =
+        await obtenerPorApertura(
+      aperturaId,
+    );
+
+    return cierre != null;
   }
 
   /// Obtener todos los cierres
@@ -52,13 +66,16 @@ class CashClosingRepository {
 
     final maps = await db.query(
       'cierreCaja',
-      orderBy: 'fecha DESC, hora DESC',
+      orderBy:
+          'fechaHoraCierre DESC',
     );
 
     return maps
         .map(
           (map) =>
-              CashClosing.fromMap(map),
+              CashClosing.fromMap(
+                map,
+              ),
         )
         .toList();
   }
@@ -76,7 +93,9 @@ class CashClosingRepository {
       limit: 1,
     );
 
-    if (maps.isEmpty) return null;
+    if (maps.isEmpty) {
+      return null;
+    }
 
     return CashClosing.fromMap(
       maps.first,

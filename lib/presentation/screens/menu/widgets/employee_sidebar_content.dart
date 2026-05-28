@@ -1,14 +1,18 @@
 import 'package:clemente_pos/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../../../../data/models/employee.dart';
+import '../../../../data/repositories/cash_opening_repository.dart';
+import '../../../../data/repositories/sale_repository.dart';
+
+import '../../../../routes/app_routes.dart';
 
 class EmployeeSidebarContent extends StatelessWidget {
   final Employee employee;
+  final CashOpeningRepository _cashOpeningRepository = CashOpeningRepository();
 
-  const EmployeeSidebarContent({
-    super.key,
-    required this.employee,
-  });
+  final SaleRepository _saleRepository = SaleRepository();
+
+  EmployeeSidebarContent({super.key, required this.employee});
 
   @override
   Widget build(BuildContext context) {
@@ -63,14 +67,57 @@ class EmployeeSidebarContent extends StatelessWidget {
           const SizedBox(height: 10),
         ],
         */
-
         ElevatedButton(
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/login');
+          onPressed: () async {
+            try {
+              final apertura = await _cashOpeningRepository
+                  .obtenerAperturaActivaPorEmpleado(employee.id.toString());
+
+              if (!context.mounted) return;
+
+              // no hay apertura activa
+              if (apertura == null) {
+                Navigator.pushReplacementNamed(context, AppRoutes.login);
+
+                return;
+              }
+
+              // revisar ventas
+              final totalVentas = await _saleRepository.obtenerTotalGeneral();
+
+              if (!context.mounted) return;
+
+              // NO hubo ventas -> cerrar directo
+              if (totalVentas == 0) {
+                await _cashOpeningRepository.cerrarCaja(apertura.id);
+
+                if (!context.mounted) return;
+
+                Navigator.pushReplacementNamed(context, AppRoutes.login);
+
+                return;
+              }
+
+              // SÍ hubo ventas -> ir a corte
+              Navigator.pushNamed(
+                context,
+                AppRoutes.cashClosing,
+                arguments: apertura,
+              );
+            } catch (e) {
+              if (!context.mounted) return;
+
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('Error: $e')));
+            }
           },
+
           child: const Text(
             "Cerrar\nsesión",
+
             style: TextStyle(color: AppColors.black, fontSize: 30),
+
             textAlign: TextAlign.center,
           ),
         ),
