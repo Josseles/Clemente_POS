@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../data/models/flavor.dart';
 import '../../../data/repositories/flavor_repository.dart';
+import '../../../data/models/production.dart';
+import '../../../data/repositories/production_repository.dart';
 
 // Core
 import '../../../core/widgets/admin_layout.dart';
@@ -18,46 +20,95 @@ class FlavorRegisterScreen extends StatefulWidget {
 class _FlavorRegisterScreenState extends State<FlavorRegisterScreen> {
   final _repository = FlavorRepository();
   final _nombreController = TextEditingController();
+  final _litrosController = TextEditingController();
+  final _costoController = TextEditingController();
+  final _productionRepository =ProductionRepository();
   CategoriaSabor _selectedCategoria = CategoriaSabor.crema;
 
   Future<void> _saveFlavor() async {
-    final nombre = _nombreController.text.trim();
+  final nombre = _nombreController.text.trim();
 
-    if (nombre.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("El nombre del sabor es obligatorio")),
-      );
-      return;
-    }
+  if (nombre.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          "El nombre del sabor es obligatorio",
+        ),
+      ),
+    );
+    return;
+  }
 
+  final litros = double.tryParse(
+        _litrosController.text.trim(),
+      ) ??
+      0;
+
+  final costo = double.tryParse(
+        _costoController.text.trim(),
+      ) ??
+      0;
+
+  try {
     final newFlavor = Flavor(
       id: null,
       nombre: nombre,
       categoria: _selectedCategoria,
-      stockLitros: 0,
+      stockLitros: litros,
       activo: false,
     );
 
-    try {
-      await _repository.insertar(newFlavor);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Sabor registrado con éxito")),
-        );
-        _nombreController.clear();
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error al registrar: $e")),
-        );
-      }
+    final int saborId = await _repository.insertar(
+      newFlavor,
+    );
+
+    if (litros > 0) {
+      final produccion = Production(
+        id: null,
+        saborId: saborId,
+        fecha: DateTime.now().toIso8601String(),
+        cantidadLitros: litros,
+        costoProduccion: costo,
+      );
+
+      await _productionRepository.insertar(
+        produccion,
+      );
     }
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          "Sabor registrado con éxito",
+        ),
+      ),
+    );
+
+    Navigator.pop(context, true);
+
+    _nombreController.clear();
+    _litrosController.clear();
+    _costoController.clear();
+  } catch (e) {
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          "Error al registrar: $e",
+        ),
+      ),
+    );
   }
+}
 
   @override
   void dispose() {
     _nombreController.dispose();
+    _litrosController.dispose();
+    _costoController.dispose();
     super.dispose();
   }
 
@@ -86,40 +137,116 @@ class _FlavorRegisterScreenState extends State<FlavorRegisterScreen> {
                   children: [
                     const Text(
                       "Sabor",
-                      style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 10),
                     buildTextField(controller: _nombreController),
                     const SizedBox(height: 40),
                     const Text(
                       "Tipo de sabor",
-                      style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 10),
                     SizedBox(
                       width: 400,
-                      child: DropdownButtonFormField<CategoriaSabor>(
-                        value: _selectedCategoria,
-                        items: CategoriaSabor.values.map((cat) {
-                          return DropdownMenuItem(
-                            value: cat,
-                            child: Text(cat == CategoriaSabor.agua ? "Agua" : "Crema"),
-                          );
-                        }).toList(),
-                        onChanged: (val) {
-                          if (val != null) {
-                            setState(() => _selectedCategoria = val);
-                          }
-                        },
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 12,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          DropdownButtonFormField<CategoriaSabor>(
+                            value: _selectedCategoria,
+                            items: CategoriaSabor.values.map((cat) {
+                              return DropdownMenuItem(
+                                value: cat,
+                                child: Text(
+                                  cat == CategoriaSabor.agua ? "Agua" : "Crema",
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (val) {
+                              if (val != null) {
+                                setState(() => _selectedCategoria = val);
+                              }
+                            },
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 12,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
                           ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
+                          const SizedBox(height: 35),
+
+                          const Text(
+                            "Producción inicial",
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
+
+                          const SizedBox(height: 10),
+
+                          SizedBox(
+                            width: 400,
+                            child: TextField(
+                              controller: _litrosController,
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                    decimal: true,
+                                  ),
+
+                              decoration: InputDecoration(
+                                labelText: "Litros iniciales",
+
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 12,
+                                ),
+
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          const SizedBox(height: 15),
+
+                          SizedBox(
+                            width: 400,
+                            child: TextField(
+                              controller: _costoController,
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                    decimal: true,
+                                  ),
+
+                              decoration: InputDecoration(
+                                labelText: "Costo de producción",
+
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 12,
+                                ),
+
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          const SizedBox(height: 40),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 40),

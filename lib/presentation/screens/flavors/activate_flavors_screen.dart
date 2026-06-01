@@ -83,7 +83,7 @@ class _ActivateFlavorsScreenState
   @override
   Widget build(BuildContext context) {
     return AdminAppLayout(
-      sidebarContent: const FlavorSidebarContent(),
+      sidebarContent: FlavorSidebarContent(onFlavorAdded: _loadFlavors,),
       child: Padding(
         padding: const EdgeInsets.all(30),
         child: _isLoading

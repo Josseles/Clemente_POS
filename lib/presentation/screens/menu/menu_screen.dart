@@ -12,11 +12,7 @@ class MenuScreen extends StatelessWidget {
   final Employee employee;
   final CashOpening? apertura;
 
-  const MenuScreen({
-    super.key,
-    required this.employee,
-    required this.apertura,
-  });
+  const MenuScreen({super.key, required this.employee, required this.apertura});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +84,15 @@ class MenuScreen extends StatelessWidget {
                         ),
                         const SizedBox(width: 30),
                         Expanded(
-                          child: MenuButton(text: "SABORES", onPressed: () {}),
+                          child: MenuButton(
+                            text: "INVENTARIO DE SABORES",
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.flavorInventory,
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),

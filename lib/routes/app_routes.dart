@@ -39,6 +39,9 @@ import '../presentation/screens/purchases/supplier_register_screen.dart';
 //CIERRE DE CAJA
 import '../presentation/screens/cash_closing/cash_closing_screen.dart';
 
+//INVENTARIO
+import '../presentation/screens/flavor_inventory/flavor_inventory_screen.dart';
+
 /*DE LADO
 import '../presentation/screens/inventory/inventory_screen.dart';
 
@@ -70,6 +73,7 @@ class AppRoutes {
   static const purchaseList = '/purchase-list';
   static const supplierRegister = '/supplier-register';
   static const cashClosing = '/cash-closing';
+  static const flavorInventory = '/flavor-inventory';
   //static const inventory = '/inventory';
   // 🔹 Map básico (sin argumentos)
   static Map<String, WidgetBuilder> routes = {
@@ -84,6 +88,7 @@ class AppRoutes {
     purchaseRegister: (context) => const PurchaseRegisterScreen(),
     purchaseList: (context) => const PurchaseListScreen(),
     supplierRegister: (context) => const SupplierRegisterScreen(),
+    flavorInventory: (context) => const FlavorInventoryScreen(),
     //inventory: (context) => const InventoryScreen(),
   };
 

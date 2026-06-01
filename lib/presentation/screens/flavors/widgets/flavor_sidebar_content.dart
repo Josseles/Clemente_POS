@@ -3,7 +3,12 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../routes/app_routes.dart';
 
 class FlavorSidebarContent extends StatelessWidget {
-  const FlavorSidebarContent({super.key});
+  final Future<void> Function() onFlavorAdded;
+
+  const FlavorSidebarContent({
+    super.key,
+    required this.onFlavorAdded,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -11,17 +16,28 @@ class FlavorSidebarContent extends StatelessWidget {
       children: [
         const SizedBox(height: 20),
 
-        // 🔹 Botón agregar sabor
         ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, AppRoutes.flavorRegister);
+          onPressed: () async {
+            final result =
+                await Navigator.pushNamed(
+              context,
+              AppRoutes.flavorRegister,
+            );
+
+            if (result == true) {
+              await onFlavorAdded();
+            }
           },
+
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,
             foregroundColor: AppColors.black,
             shape: const StadiumBorder(),
           ),
-          child: const Text("Agregar nuevo sabor"),
+
+          child: const Text(
+            "Agregar nuevo sabor",
+          ),
         ),
 
         const Spacer(),
